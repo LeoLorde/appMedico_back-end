@@ -1,17 +1,14 @@
 from database import db
 from .user_model import User
 import os
-from cryptography.fernet import Fernet
-
-crm_key = os.getenv("CRM_KEY")
+import bcrypt
 
 class Doctor(User):
     __tablename__ = "doctor"
     
-    crm = db.Column(db.String(128), nullable=False)
+    crm = db.Column(db.String(128), nullable=False) 
     especialidade = db.Column(db.String(255), nullable=False)
     bio = db.Column(db.String(255), nullable=False)
-    _key = crm_key
     
     endereco_id = db.Column(db.Integer, db.ForeignKey('adress.id'), nullable=False)
     endereco = db.relationship('Adress', backref='doctor', uselist=False)  
@@ -24,13 +21,11 @@ class Doctor(User):
     )
 
     def set_crm(self, crm):
-        cipher = Fernet(self._key)
-        self.crm = cipher.encrypt(crm.encode()).decode()
+        salt = bcrypt.gensalt()
+        self.crm = bcrypt.hashpw(crm.encode(), salt).decode() 
 
     def check_crm(self, crm):
-        cipher = Fernet(self._key)
-        decrypted_crm = cipher.decrypt(self.crm.encode()).decode()
-        return decrypted_crm == crm
+        return bcrypt.checkpw(crm.encode(), self.crm.encode())
 
     def toMap(self):
         return {

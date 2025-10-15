@@ -1,6 +1,7 @@
 from flask import request
 from models.client_model import Client
 from models.gender_enum import Gender
+from datetime import datetime
 from database import db
 
 def create_client():
@@ -9,7 +10,7 @@ def create_client():
     client = Client(
         username=data.get('username'),
         email=data.get('email'),
-        dataDeNascimento=data.get('dataDeNascimento'),
+        dataDeNascimento=datetime.strptime(data.get('dataDeNascimento'), '%Y-%m-%d').date(),
         gender=Gender.parse_gender(data.get('genero')),
     )
     client.set_password(password=data.get('senha'))

@@ -3,9 +3,7 @@ from .user_model import User
 from .gender_enum import Gender
 from sqlalchemy import Enum as sqlenum
 import os
-from cryptography.fernet import Fernet
-
-cpf_key = os.getenv("CPF_KEY")
+import bcrypt
 
 class Client(User):
     __tablename__ = "client"
@@ -13,23 +11,20 @@ class Client(User):
     cpf = db.Column(db.String(128), nullable=False)
     dataDeNascimento = db.Column(db.DateTime, nullable=False)
     gender = db.Column(sqlenum(Gender, name="gender_enum"), nullable=False)
-    _key = cpf_key
 
     def set_cpf(self, cpf):
-        cipher = Fernet(self._key)
-        self.cpf = cipher.encrypt(cpf.encode()).decode()
+        salt = bcrypt.gensalt()
+        self.cpf = bcrypt.hashpw(cpf.encode(), salt).decode()
 
     def check_cpf(self, cpf):
-        cipher = Fernet(self._key)
-        decrypted_cpf = cipher.decrypt(self.cpf.encode()).decode()
-        return decrypted_cpf == cpf
+        return bcrypt.checkpw(cpf.encode(), self.cpf.encode())
 
     def toMap(self):
         return {
             "id": self.id,
             "username": self.username,
             "email": self.email,
-            "cpf": self.cpf,
+            "cpf": self.cpf, 
             "dataDeNascimento": self.dataDeNascimento,
             "gender": self.gender.name
         }
