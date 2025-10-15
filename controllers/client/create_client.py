@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 from models.client_model import Client
 from models.gender_enum import Gender
 from datetime import datetime
@@ -22,7 +22,7 @@ def create_client():
     
     db.session.add(client)
     db.session.commit()
-    return {
+    return jsonify({
         'message': 'Client criado com sucesso',
         'data': client.toMap()
-    }, 201
+    }), 201
