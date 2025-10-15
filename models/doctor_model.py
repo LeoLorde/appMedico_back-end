@@ -6,7 +6,7 @@ from cryptography.fernet import Fernet
 crm_key = os.getenv("CRM_KEY")
 
 class Doctor(User):
-    __tablename__ = "doctors"
+    __tablename__ = "doctor"
     
     crm = db.Column(db.String(128), nullable=False)
     especialidade = db.Column(db.String(255), nullable=False)
