@@ -2,6 +2,7 @@
 
 Parte backend.
 
-|Nome|Cu|
-|Maurício|Grande|
-|Allan|Pequeno|
+| Nome      | Cu     |
+|-----------|--------|
+| Maurício  | Grande |
+| Allan     | Pequeno|
