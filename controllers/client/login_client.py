@@ -6,7 +6,7 @@ from datetime import timedelta
 def client_login():
     data = request.get_json()
     email=data.get('email')
-    password = data.get('password')
+    password = data.get('senha')
 
     client_exist : Client = Client.query.filter_by(email=email).first()
     if client_exist == None:

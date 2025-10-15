@@ -15,22 +15,22 @@ def criar_client():
 def login_cliente():
     return client_login()
 
-@client_bp.route("/<limit:int>")
+@client_bp.route("/<int:limit>")
 def get_all(limit):
     return search_all(limit)
 
-@client_bp.route("/id/<id:int>")
+@client_bp.route("/id/<int:id>")
 def get_id(id):
     return search_by_id(id)
 
-@client_bp.route("/username/<username:str>")
-def get_username(username):
-    return search_by_username(username)
+@client_bp.route("/username/<string:username>/<int:limit>")
+def get_username(username, limit):
+    return search_by_username(username, limit)
 
-@client_bp.route("/update/<id:int>", methods=["POST"])
+@client_bp.route("/update/<int:id>", methods=["PUT"])
 def update_cliente(id):  
     return update_client(id)  
 
-@client_bp.route("/delete/<id:int>", methods=["DELETE"])
+@client_bp.route("/delete/<int:id>", methods=["DELETE"])
 def delete_cliente(id):  
     return delete_client(id) 
