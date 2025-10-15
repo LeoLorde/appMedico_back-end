@@ -7,6 +7,8 @@ from database import db
 def create_client():
     data = request.get_json()
     
+    print(data)
+    
     client = Client(
         username=data.get('username'),
         email=data.get('email'),
@@ -15,6 +17,8 @@ def create_client():
     )
     client.set_password(password=data.get('senha'))
     client.set_cpf(cpf=data.get('cpf'))
+    
+    print(client.toMap())
     
     db.session.add(client)
     db.session.commit()
