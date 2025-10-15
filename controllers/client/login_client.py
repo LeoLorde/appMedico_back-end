@@ -3,7 +3,7 @@ from models.client_model import Client
 from flask_jwt_extended import create_access_token
 from datetime import timedelta
 
-def login():
+def client_login():
     data = request.get_json()
     email=data.get('email')
     password = data.get('password')
