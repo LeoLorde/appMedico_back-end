@@ -11,10 +11,6 @@ class Adress(db.Model):
     numero = db.Column(db.String(255), nullable=False)
     
     complemento = db.Column(db.String(255), nullable=True)
-    
-    __table_args__ = (
-        db.Index('idx_cep', 'cep'),
-    )
 
     def __repr__(self):
         return f"<Endereco cidade={self.cidade} cep={self.cep}>"

@@ -14,12 +14,12 @@ class Doctor(User):
     _key = crm_key
     
     endereco_id = db.Column(db.Integer, db.ForeignKey('adress.id'), nullable=False)
-    endereco = db.relationship('Adress', backref='doctor', uselist=False)
+    endereco = db.relationship('Adress', backref='doctor', uselist=False)  
 
     appointments = db.relationship(
         "Appointment",
-        backref="doctor",     
-        cascade="all, delete-orphan",  
+        backref="doctor", 
+        cascade="all, delete-orphan", 
         lazy=True
     )
 

@@ -1,13 +1,8 @@
 from database import db
 from .user_model import User
-from enum import Enum
+from .gender_enum import Gender
 from sqlalchemy import Enum as sqlenum
 import os
-
-class Gender(Enum):
-    MAN = 1
-    WOMAN = 2
-
 from cryptography.fernet import Fernet
 
 crm_key = os.getenv("CRM_KEY")
@@ -19,13 +14,6 @@ class Client(User):
     dataDeNascimento = db.Column(db.DateTime, nullable=False)
     gender = db.Column(sqlenum(Gender), nullable=False)
     _key = crm_key
-
-    appointments = db.relationship(
-        "Appointment",
-        backref="client",     
-        cascade="all, delete-orphan",  
-        lazy=True
-    )
 
     def set_cpf(self, cpf):
         cipher = Fernet(self._key)
@@ -41,6 +29,7 @@ class Client(User):
             "id": self.id,
             "username": self.username,
             "email": self.email,
+            "cpf": self.cpf,
             "dataDeNascimento": self.dataDeNascimento,
-            "gender": self.gender
+            "gender": self.gender.name
         }
