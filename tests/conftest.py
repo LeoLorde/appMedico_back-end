@@ -1,5 +1,5 @@
 import pytest
-from app import create_app
+from config import create_app
 from database import db
 import os
 
