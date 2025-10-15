@@ -12,7 +12,7 @@ from cryptography.fernet import Fernet
 
 class Client(User):
     cpf = db.Column(db.String(128), nullable=False)
-    dataDeNasc = db.Column(db.DateTime, nullable=False)
+    dataDeNascimento = db.Column(db.DateTime, nullable=False)
     gender = db.Column(sqlenum(Gender), nullable=False)
     _key = b'NAO-EH-SEGURO-TIRA-ESSA-MERDA'
 
@@ -24,3 +24,12 @@ class Client(User):
         cipher = Fernet(self._key)
         decrypted_cpf = cipher.decrypt(self.cpf.encode()).decode()
         return decrypted_cpf == cpf
+
+    def toMap(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "email": self.email,
+            "dataDeNascimento": self.dataDeNascimento,
+            "gender": self.gender
+        }
