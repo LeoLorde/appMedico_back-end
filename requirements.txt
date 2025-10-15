@@ -1,6 +1,6 @@
 flask_sqlalchemy
 flask
 werkzeug.security
-cryptography
+bcrypt
 sqlalchemy
 python-dotenv

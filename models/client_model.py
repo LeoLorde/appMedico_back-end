@@ -26,5 +26,5 @@ class Client(User):
             "email": self.email,
             "cpf": self.cpf, 
             "dataDeNascimento": self.dataDeNascimento,
-            "gender": self.gender.name
+            "genero": self.gender.name
         }

@@ -17,5 +17,9 @@
   "files.autoSaveDelay": 1000,
   "editor.minimap.enabled": false,
   "extensions.ignoreRecommendations": true,
-  "python.formatting.provider": "black"
+  "python.formatting.provider": "black",
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/instance": true
+  }
 }
