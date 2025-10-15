@@ -1,0 +1,57 @@
+{
+	"Flask Route": {
+		"prefix": "flaskroute",
+		"body": [
+			"@app.route('${1:/path}', methods=['${2:GET}'])",
+			"def ${3:func_name}():",
+			"    ${4:pass}"
+		],
+		"description": "Cria uma rota básica do Flask"
+  	},
+
+	"Flask Query Example": {
+		"prefix": "flaskquery",
+		"body": [
+			"# Consulta todos",
+			"${1:results} = ${2:Model}.query.all()",
+			"",
+			"# Consulta com filtro",
+			"${3:filtered} = ${2:Model}.query.filter(${2:Model}.${4:field} == ${5:value}).all()",
+			"",
+			"# Primeiro resultado",
+			"${6:first_item} = ${2:Model}.query.first()"
+		],
+		"description": "Exemplo de consultas SQLAlchemy"
+	},
+
+	"Flask Init App": {
+		"prefix": "flaskinit",
+		"body": [
+			"from flask import Flask",
+			"from flask_sqlalchemy import SQLAlchemy",
+			"",
+			"app = Flask(__name__)",
+			"app.config['SQLALCHEMY_DATABASE_URI'] = '${1:sqlite:///app.db}'",
+			"app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False",
+			"",
+			"db = SQLAlchemy(app)",
+			"",
+			"if __name__ == '__main__':",
+			"    app.run(debug=${2:True})"
+		],
+		"description": "Inicialização básica do Flask com SQLAlchemy"
+	},
+
+	"Flask Error Handler": {
+		"prefix": "flaskerror",
+		"body": [
+			"@app.errorhandler(${1:404})",
+			"def ${2:not_found}(error):",
+			"    return {",
+			"        'error': str(error),",
+			"        'message': '${3:Resource not found}'",
+			"    }, ${1:404}"
+		],
+		"description": "Cria um handler de erro no Flask"
+	},
+}

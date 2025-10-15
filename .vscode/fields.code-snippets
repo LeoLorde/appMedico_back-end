@@ -1,0 +1,48 @@
+{
+    "Flask Integer Field": {
+		"prefix": "intfield",
+		"body": [
+			"${1:field_name} = db.Column(db.Integer, nullable=${2:False})"
+		],
+		"description": "Cria um campo inteiro no modelo Flask SQLAlchemy"
+	},
+
+	"Flask String Field": {
+		"prefix": "strfield",
+		"body": [
+			"${1:field_name} = db.Column(db.String(${2:255}), nullable=${3:False})"
+		],
+		"description": "Cria um campo string no modelo Flask SQLAlchemy"
+	},
+
+	"Flask Boolean Field": {
+		"prefix": "boolfield",
+		"body": [
+			"${1:field_name} = db.Column(db.Boolean, nullable=${2:False})"
+		],
+		"description": "Cria um campo boolean no modelo Flask SQLAlchemy"
+	},
+
+	"Flask Float Field": {
+		"prefix": "flfield",
+		"body": [
+			"${1:field_name} = db.Column(db.Float, nullable=${2:False})"
+		],
+		"description": "Cria um campo float no modelo Flask SQLAlchemy"
+	},
+
+	"Flask DateTime Field": {
+		"prefix": "dtfield",
+		"body": [
+			"${1:field_name} = db.Column(db.DateTime, nullable=${2:False})"
+		],
+		"description": "Cria um campo DateTime no modelo Flask SQLAlchemy"
+	},
+
+	"Data Get": {
+		"prefix": "dataget",
+		"body": [
+        	"${1:variable}=data.get('${1:variable}')",
+		]
+	},
+}
