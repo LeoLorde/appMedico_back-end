@@ -3,3 +3,4 @@ flask
 werkzeug.security
 cryptography
 sqlalchemy
+python-dotenv

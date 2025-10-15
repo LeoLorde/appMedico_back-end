@@ -1,8 +1,8 @@
 from database import db
 from .user_model import User
 from enum import Enum
-from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Enum as sqlenum
+import os
 
 class Gender(Enum):
     MAN = 1
@@ -10,11 +10,13 @@ class Gender(Enum):
 
 from cryptography.fernet import Fernet
 
+crm_key = os.getenv("CRM_KEY")
+
 class Client(User):
     cpf = db.Column(db.String(128), nullable=False)
     dataDeNascimento = db.Column(db.DateTime, nullable=False)
     gender = db.Column(sqlenum(Gender), nullable=False)
-    _key = b'NAO-EH-SEGURO-TIRA-ESSA-MERDA'
+    _key = crm_key
 
     def set_cpf(self, cpf):
         cipher = Fernet(self._key)

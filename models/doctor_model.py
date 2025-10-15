@@ -1,15 +1,15 @@
 from database import db
 from .user_model import User
-from enum import Enum
-from sqlalchemy import Enum as sqlenum
-
+import os
 from cryptography.fernet import Fernet
+
+cpf_key = os.getenv("CPF_KEY")
 
 class Doctor(User):
     crm = db.Column(db.String(128), nullable=False)
     speciality = db.Column(db.String(255), nullable=False)
     bio = db.Column(db.String(255), nullable=False)
-    _key = b'NAO-EH-SEGURO-TIRA-ESSA-MERDA'
+    _key = cpf_key
 
     def set_crm(self, crm):
         cipher = Fernet(self._key)
