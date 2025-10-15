@@ -4,3 +4,4 @@ werkzeug.security
 bcrypt
 sqlalchemy
 python-dotenv
+pytest
