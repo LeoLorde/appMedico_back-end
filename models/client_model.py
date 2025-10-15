@@ -5,15 +5,15 @@ from sqlalchemy import Enum as sqlenum
 import os
 from cryptography.fernet import Fernet
 
-crm_key = os.getenv("CRM_KEY")
+cpf_key = os.getenv("CPF_KEY")
 
 class Client(User):
     __tablename__ = "client"
     
     cpf = db.Column(db.String(128), nullable=False)
     dataDeNascimento = db.Column(db.DateTime, nullable=False)
-    gender = db.Column(sqlenum(Gender), nullable=False)
-    _key = crm_key
+    gender = db.Column(sqlenum(Gender, name="gender_enum"), nullable=False)
+    _key = cpf_key
 
     def set_cpf(self, cpf):
         cipher = Fernet(self._key)

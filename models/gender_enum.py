@@ -1,4 +1,5 @@
 from enum import Enum
+
 class Gender(Enum):
     MAN = 1
     WOMAN = 2

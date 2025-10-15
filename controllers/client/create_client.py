@@ -10,9 +10,9 @@ def create_client():
         username=data.get('username'),
         email=data.get('email'),
         dataDeNascimento=data.get('dataDeNascimento'),
-        genero=Gender.parse_gender(data.get('genero')),
+        gender=Gender.parse_gender(data.get('genero')),
     )
-    client.set_password(passsword=data.get('passsword'))
+    client.set_password(password=data.get('senha'))
     client.set_cpf(cpf=data.get('cpf'))
     
     db.session.add(client)
