@@ -20,6 +20,7 @@
   "python.formatting.provider": "black",
   "files.exclude": {
     "**/__pycache__": true,
-    "**/instance": true
+    "**/instance": true,
+    "**.pytest_cache/": true
   }
 }
