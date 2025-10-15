@@ -20,6 +20,13 @@ class Client(User):
     gender = db.Column(sqlenum(Gender), nullable=False)
     _key = crm_key
 
+    appointments = db.relationship(
+        "Appointment",
+        backref="client",     
+        cascade="all, delete-orphan",  
+        lazy=True
+    )
+
     def set_cpf(self, cpf):
         cipher = Fernet(self._key)
         self.cpf = cipher.encrypt(cpf.encode()).decode()

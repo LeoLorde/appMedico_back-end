@@ -1,5 +1,4 @@
 from database import db
-from flask_sqlalchemy import SQLAlchemy
 
 class Appointment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
