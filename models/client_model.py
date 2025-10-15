@@ -13,6 +13,8 @@ from cryptography.fernet import Fernet
 crm_key = os.getenv("CRM_KEY")
 
 class Client(User):
+    __tablename__ = "clients"
+    
     cpf = db.Column(db.String(128), nullable=False)
     dataDeNascimento = db.Column(db.DateTime, nullable=False)
     gender = db.Column(sqlenum(Gender), nullable=False)
