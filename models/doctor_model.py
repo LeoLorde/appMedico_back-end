@@ -10,15 +10,8 @@ class Doctor(User):
     especialidade = db.Column(db.String(255), nullable=False)
     bio = db.Column(db.String(255), nullable=False)
     
-    endereco_id = db.Column(db.Integer, db.ForeignKey('adress.id'), nullable=False)
-    endereco = db.relationship('Adress', backref='doctor', uselist=False)  
-
-    appointments = db.relationship(
-        "Appointment",
-        backref="doctor", 
-        cascade="all, delete-orphan", 
-        lazy=True
-    )
+    endereco_id = db.Column(db.Integer, db.ForeignKey('address.id'), nullable=False)
+    endereco = db.relationship('Address', backref='doctor', uselist=False)  
 
     def set_crm(self, crm):
         salt = bcrypt.gensalt()

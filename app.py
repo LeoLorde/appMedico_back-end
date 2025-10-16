@@ -1,36 +1,21 @@
-from flask import Flask, jsonify
-from database import db
+from flask import jsonify
 from dotenv import load_dotenv
-from flask_jwt_extended import JWTManager
-
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager
 import os
 
-from routes.client_routes import client_bp
+from config import create_app
 
 load_dotenv()
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['JWT_SECRET_KEY'] = os.getenv("JWT_KEY")
+app = create_app()
 
-CORS(app=app)
+CORS(app)
 JWTManager(app)
 
 @app.route("/")
 def index():
-    return jsonify(
-        {
-            "message": "funcionando"
-        }
-    )
-
-db.init_app(app)
-with app.app_context():
-    db.create_all()
-
-app.register_blueprint(client_bp)
+    return jsonify({"message": "funcionando"})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

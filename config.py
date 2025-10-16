@@ -1,27 +1,47 @@
-# app.py
 from flask import Flask
 from database import db
 from flask_jwt_extended import JWTManager
 
+from models.user_model import User
+from models.appointment_model import Appointment
+from models.client_model import Client
+from models.doctor_model import Doctor
+from models.endereco_model import Address 
+
+from routes.client_routes import client_bp
+from routes.doctor_routes import doctor_bp
+
 def create_app(testing=False) -> Flask:
     app = Flask(__name__)
 
-    # GERAL
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['JWT_SECRET_KEY'] = 'sua_chave_jwt_aqui'
 
     if testing:
-        # TESTES
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
         app.config['TESTING'] = True
 
-    # OTHER
     db.init_app(app)
-    JWTManager(app)
 
-    # BLUEPRINTS
-    from routes.client_routes import client_bp
+    with app.app_context():
+        
+        print("🔍 Models registrados:")
+        print("  - User:", User)
+        print("  - Doctor:", Doctor)
+        print("  - Client:", Client)
+        print("  - Appointment:", Appointment)
+        print("  - Address:", Address)
+
+        print("\nTabelas encontradas pelo metadata:")
+        print(list(db.metadata.tables.keys()))
+
+        db.create_all()
+
+        print("\nTabelas criadas com sucesso!")
+
+    JWTManager(app)
     app.register_blueprint(client_bp)
+    app.register_blueprint(doctor_bp)
 
     return app

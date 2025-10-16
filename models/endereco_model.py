@@ -1,7 +1,7 @@
 from database import db
 
-class Adress(db.Model):
-    __tablename__ = "adress"
+class Address(db.Model):
+    __tablename__ = "address"
     
     id = db.Column(db.Integer, primary_key=True)
     cidade = db.Column(db.String, nullable=False)
