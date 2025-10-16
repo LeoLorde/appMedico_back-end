@@ -1,6 +1,3 @@
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 import os
 from dotenv import load_dotenv
 
@@ -45,13 +42,3 @@ class Email:
 
         if not EMAIL_USER or not EMAIL_PASS:
             raise ValueError("Defina EMAIL_USER e EMAIL_PASS no .env")
-
-        msg = MIMEMultipart()
-        msg['From'] = EMAIL_USER
-        msg['To'] = to_email
-        msg['Subject'] = subject
-        msg.attach(MIMEText(body, 'plain'))
-
-        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
-            server.login(EMAIL_USER, EMAIL_PASS)
-            server.send_message(msg)
