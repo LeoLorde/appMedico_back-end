@@ -1,5 +1,6 @@
 from controllers.doctor.create_doctor import create_doctor
 from controllers.doctor.login_doctor import doctor_login
+from controllers.doctor.read_doctor import search_all, search_by_id, search_by_username
 from flask import Blueprint
 
 doctor_bp = Blueprint("doctor", "doctor", url_prefix="/doctor")
@@ -15,3 +16,15 @@ def create_doctor_func():
 @doctor_bp.route("/login", methods=["POST"])
 def login_doctor():
     return doctor_login()
+
+@doctor_bp.route("/<int:limit>")
+def get_all(limit):
+    return search_all(limit)
+
+@doctor_bp.route("/id/<int:id>")
+def get_id(id):
+    return search_by_id(id)
+
+@doctor_bp.route("/username/<string:username>/<int:limit>")
+def get_username(username, limit):
+    return search_by_username(username, limit)
