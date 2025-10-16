@@ -6,7 +6,7 @@ import bcrypt
 class Doctor(User):
     __tablename__ = "doctor"
     
-    crm = db.Column(db.String(128), nullable=False) 
+    crm = db.Column(db.String(128), nullable=False, unique=True) 
     especialidade = db.Column(db.String(255), nullable=False)
     bio = db.Column(db.String(255), nullable=False)
     

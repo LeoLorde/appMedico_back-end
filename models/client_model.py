@@ -8,7 +8,7 @@ import bcrypt
 class Client(User):
     __tablename__ = "client"
     
-    cpf = db.Column(db.String(128), nullable=False)
+    cpf = db.Column(db.String(128), nullable=False, unique=True)
     dataDeNascimento = db.Column(db.DateTime, nullable=False)
     gender = db.Column(sqlenum(Gender, name="gender_enum"), nullable=False)
 
