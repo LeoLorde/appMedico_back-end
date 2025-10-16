@@ -1,6 +1,7 @@
 from controllers.doctor.create_doctor import create_doctor
 from controllers.doctor.login_doctor import doctor_login
 from controllers.doctor.read_doctor import search_all, search_by_id, search_by_username
+from controllers.doctor.remove_doctor import delete_doctor
 from flask import Blueprint
 
 doctor_bp = Blueprint("doctor", "doctor", url_prefix="/doctor")
@@ -28,3 +29,7 @@ def get_id(id):
 @doctor_bp.route("/username/<string:username>/<int:limit>")
 def get_username(username, limit):
     return search_by_username(username, limit)
+
+@doctor_bp.route("/delete/<int:id>")
+def doctor_delete(id):
+    return delete_doctor(id)
