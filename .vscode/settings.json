@@ -17,6 +17,7 @@
   "files.autoSaveDelay": 1000,
   "editor.minimap.enabled": false,
   "extensions.ignoreRecommendations": true,
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
   "python.formatting.provider": "black",
   "files.exclude": {
     "**/__pycache__": true,

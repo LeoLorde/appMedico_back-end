@@ -3,6 +3,7 @@ from enum import Enum
 class Gender(Enum):
     MAN = 1
     WOMAN = 2
+    NONE = 3
 
     @staticmethod
     def parse_gender(gender_value):
