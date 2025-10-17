@@ -1,11 +1,13 @@
 swagger: "2.0"
 info:
   title: API de Clientes
-  version: 1.0.0
+  version: "1.0.0"
   description: Documentação da API para gerenciamento de clientes
 
-servers:
-  - url: http://localhost:5000
+host: localhost:5000
+basePath: /
+schemes:
+  - http
 
 paths:
   /client/create:
@@ -13,30 +15,30 @@ paths:
       summary: Criar um novo cliente
       tags:
         - Client
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                username:
-                  type: string
-                email:
-                  type: string
-                cpf:
-                  type: string
-                dataDeNascimento:
-                  type: string
-                  format: date
-                genero:
-                  type: string
-                senha:
-                  type: string
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              email:
+                type: string
+              cpf:
+                type: string
+              dataDeNascimento:
+                type: string
+                format: date
+              genero:
+                type: string
+              senha:
+                type: string
       responses:
-        '201':
+        201:
           description: Cliente criado com sucesso
-        '400':
+        400:
           description: Dados inválidos
 
   /client/login:
@@ -44,23 +46,23 @@ paths:
       summary: Login do cliente
       tags:
         - Client
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                senha:
-                  type: string
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              senha:
+                type: string
       responses:
-        '200':
+        200:
           description: Login bem-sucedido
-        '404':
+        404:
           description: Usuário não encontrado
-        '400':
+        400:
           description: Credenciais inválidas
 
   /client/{limit}:
@@ -72,12 +74,11 @@ paths:
         - in: path
           name: limit
           required: true
-          schema:
-            type: integer
+          type: integer
       responses:
-        '200':
+        200:
           description: Lista de clientes
-        '404':
+        404:
           description: Nenhum cliente encontrado
 
   /client/id/{id}:
@@ -89,12 +90,11 @@ paths:
         - in: path
           name: id
           required: true
-          schema:
-            type: integer
+          type: integer
       responses:
-        '200':
+        200:
           description: Cliente encontrado
-        '404':
+        404:
           description: Cliente não encontrado
 
   /client/username/{username}/{limit}:
@@ -106,17 +106,15 @@ paths:
         - in: path
           name: username
           required: true
-          schema:
-            type: string
+          type: string
         - in: path
           name: limit
           required: true
-          schema:
-            type: integer
+          type: integer
       responses:
-        '200':
+        200:
           description: Lista de clientes encontrados
-        '404':
+        404:
           description: Nenhum cliente encontrado
 
   /client/update/{id}:
@@ -130,31 +128,29 @@ paths:
         - in: path
           name: id
           required: true
+          type: integer
+        - in: body
+          name: body
+          required: true
           schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                username:
-                  type: string
-                email:
-                  type: string
-                password:
-                  type: string
-                cpf:
-                  type: string
-                dataDeNascimento:
-                  type: string
-                gender:
-                  type: string
+            type: object
+            properties:
+              username:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+              cpf:
+                type: string
+              dataDeNascimento:
+                type: string
+              gender:
+                type: string
       responses:
-        '200':
+        200:
           description: Cliente atualizado com sucesso
-        '404':
+        404:
           description: Cliente não encontrado
 
   /client/delete/{id}:
@@ -168,17 +164,15 @@ paths:
         - in: path
           name: id
           required: true
-          schema:
-            type: integer
+          type: integer
       responses:
-        '200':
+        200:
           description: Cliente deletado com sucesso
-        '404':
+        404:
           description: Cliente não encontrado
 
-components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+securityDefinitions:
+  bearerAuth:
+    type: apiKey
+    name: Authorization
+    in: header
