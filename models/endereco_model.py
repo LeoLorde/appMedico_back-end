@@ -14,3 +14,14 @@ class Address(db.Model):
 
     def __repr__(self):
         return f"<Endereco cidade={self.cidade} cep={self.cep}>"
+    
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "cidade": self.cidade,
+            "estado": self.estado,
+            "cep": self.cep,
+            "rua": self.rua,
+            "numero": self.numero,
+            "complemento": self.complemento,
+        }

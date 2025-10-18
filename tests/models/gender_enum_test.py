@@ -15,6 +15,7 @@ def test_parse_gender_with_string():
     assert Gender.parse_gender("man") == Gender.MAN
     assert Gender.parse_gender("WOMAN") == Gender.WOMAN
     assert Gender.parse_gender("Man") == Gender.MAN
+    assert Gender.parse_gender("NONE") == Gender.NONE
     with pytest.raises(ValueError):
         Gender.parse_gender("other")
 

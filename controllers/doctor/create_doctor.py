@@ -6,12 +6,14 @@ from classes import Email, CRM
 def create_doctor():
     data = request.get_json()
 
+    id = data.get("id")
     username = data.get('username')
     email = data.get('email')
     crm = data.get('crm')
     bio = data.get('bio')
     especialidade = data.get('especialidade')
     senha = data.get('senha')
+    endereco_id=data.get('endereco_id')
 
     # ----- VALIDATORS -----
     if not Email.is_valid(email):
@@ -26,7 +28,7 @@ def create_doctor():
         email=Email.parse(email),
         bio=bio,
         especialidade=especialidade,
-        endereco_id=1
+        endereco_id=endereco_id
     )
     doctor.set_crm(crm=CRM.parse(crm))
     doctor.set_password(password=senha)

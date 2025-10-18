@@ -7,7 +7,7 @@ from classes import CPF, Email
 
 def create_client():
     data = request.get_json()
-    
+    id = data.get("id")
     username = data.get('username')
     email = data.get('email')
     cpf = data.get('cpf')
