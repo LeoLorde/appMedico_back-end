@@ -6,7 +6,7 @@ from classes import Email, CRM
 def create_doctor():
     data = request.get_json()
 
-    id = data.get("id")
+    sid = data.get("id")
     username = data.get('username')
     email = data.get('email')
     crm = data.get('crm')
@@ -28,7 +28,8 @@ def create_doctor():
         email=Email.parse(email),
         bio=bio,
         especialidade=especialidade,
-        endereco_id=endereco_id
+        endereco_id=endereco_id,
+        id=sid
     )
     doctor.set_crm(crm=CRM.parse(crm))
     doctor.set_password(password=senha)

@@ -10,6 +10,7 @@ from models.endereco_model import Address
 
 from routes.client_routes import client_bp
 from routes.doctor_routes import doctor_bp
+from routes.address_routes import address_bp
 
 def create_app(testing=False) -> Flask:
     app = Flask(__name__)
@@ -43,5 +44,6 @@ def create_app(testing=False) -> Flask:
     JWTManager(app)
     app.register_blueprint(client_bp)
     app.register_blueprint(doctor_bp)
+    app.register_blueprint(address_bp)
 
     return app
