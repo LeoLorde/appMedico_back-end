@@ -3,7 +3,7 @@ from database import db
 class Address(db.Model):
     __tablename__ = "address"
     
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(128), primary_key=True)
     cidade = db.Column(db.String, nullable=False)
     estado = db.Column(db.String(255), nullable=False)
     cep = db.Column(db.String(255), nullable=False)
