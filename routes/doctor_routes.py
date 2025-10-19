@@ -2,7 +2,9 @@ from controllers.doctor.create_doctor import create_doctor
 from controllers.doctor.login_doctor import doctor_login
 from controllers.doctor.read_doctor import search_all, search_by_id, search_by_username
 from controllers.doctor.remove_doctor import delete_doctor
+from controllers.doctor.update_doctor import update_doctor
 from flask import Blueprint
+from limiter import limiter
 
 doctor_bp = Blueprint("doctor", "doctor", url_prefix="/doctor")
 
@@ -11,10 +13,12 @@ def index_main():
     return {"message": "connected"}
 
 @doctor_bp.route("/create", methods=["POST"])
+@limiter.limit("5 per hour")
 def create_doctor_func():
     return create_doctor()
 
 @doctor_bp.route("/login", methods=["POST"])
+@limiter.limit("10 per minute")
 def login_doctor():
     return doctor_login()
 
@@ -30,6 +34,10 @@ def get_id(id):
 def get_username(username, limit):
     return search_by_username(username, limit)
 
-@doctor_bp.route("/delete/<int:id>")
+@doctor_bp.route("/update/<int:id>", methods=["PUT"])
+def update_doctor_func(id):
+    return update_doctor(id)
+
+@doctor_bp.route("/delete/<int:id>", methods=["DELETE"])
 def doctor_delete(id):
     return delete_doctor(id)

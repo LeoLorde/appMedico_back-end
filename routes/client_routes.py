@@ -4,14 +4,17 @@ from controllers.client.read_client import search_all, search_by_id, search_by_u
 from controllers.client.remove_client import delete_client
 from controllers.client.update_client import update_client
 from flask import Blueprint
+from limiter import limiter
 
 client_bp = Blueprint("client", "client", url_prefix="/client")
 
 @client_bp.route("/create", methods=["POST"])
+@limiter.limit("5 per hour")
 def criar_client():
     return create_client()
 
 @client_bp.route("/login", methods=["POST"])
+@limiter.limit("10 per minute")
 def login_cliente():
     return client_login()
 
@@ -33,4 +36,4 @@ def update_cliente(id):
 
 @client_bp.route("/delete/<int:id>", methods=["DELETE"])
 def delete_cliente(id):  
-    return delete_client(id) 
+    return delete_client(id)

@@ -5,13 +5,23 @@ from flasgger import Flasgger
 from flask_jwt_extended import JWTManager
 import os
 
-from config import create_app
+from app_config import create_flask_app
+from limiter import limiter
 
 load_dotenv()
 
-app = create_app()
+app = create_flask_app()
 
-CORS(app)
+allowed_origins = os.getenv('ALLOWED_ORIGINS', 'http://localhost:3000').split(',')
+CORS(app, resources={
+    r"/*": {
+        "origins": allowed_origins,
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+})
+
+limiter.init_app(app)  # Inicializa aqui
 Flasgger(app, template_file="swagger.yaml")
 JWTManager(app)
 
@@ -20,4 +30,5 @@ def index():
     return jsonify({"message": "funcionando"})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    debug_mode = os.getenv('FLASK_ENV') == 'development'
+    app.run(host='0.0.0.0', port=5000, debug=debug_mode)

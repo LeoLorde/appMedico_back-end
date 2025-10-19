@@ -1,43 +1,55 @@
 from models.doctor_model import Doctor
 from flask import request, jsonify
 from database import db
-from classes import Email, CRM
+from utils.validators import InputValidator, ValidationError
 
 def create_doctor():
-    data = request.get_json()
+    try:
+        data = request.get_json()
 
-    sid = data.get("id")
-    username = data.get('username')
-    email = data.get('email')
-    crm = data.get('crm')
-    bio = data.get('bio')
-    especialidade = data.get('especialidade')
-    senha = data.get('senha')
-    endereco_id=data.get('endereco_id')
+        validated_data = InputValidator.validate_doctor_data({
+            'username': data.get('username'),
+            'email': data.get('email'),
+            'crm': data.get('crm'),
+            'password': data.get('senha'),
+            'specialty': data.get('especialidade')
+        })
 
-    # ----- VALIDATORS -----
-    if not Email.is_valid(email):
-        return jsonify({'message': 'Email inválido'}), 400
+        bio = data.get('bio', '')
+        endereco_id = data.get('endereco_id')
 
-    if not CRM.is_valid(crm):
-        return jsonify({'message': 'CRM inválido'}), 400
+        existing_email = Doctor.query.filter_by(email=validated_data['email']).first()
+        if existing_email:
+            return jsonify({'message': 'Email já cadastrado'}), 409
+        
+        existing_crm = Doctor.query.filter_by(crm=validated_data['crm']).first()
+        if existing_crm:
+            return jsonify({'message': 'CRM já cadastrado'}), 409
 
-    # ----- CREATE DOCTOR -----
-    doctor = Doctor(
-        username=username,
-        email=Email.parse(email),
-        bio=bio,
-        especialidade=especialidade,
-        endereco_id=endereco_id,
-        id=sid
-    )
-    doctor.set_crm(crm=CRM.parse(crm))
-    doctor.set_password(password=senha)
+        doctor = Doctor(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            bio=bio,
+            especialidade=validated_data.get('specialty', ''),
+            endereco_id=endereco_id
+        )
+        doctor.set_crm(crm=validated_data['crm'])
+        doctor.set_password(password=validated_data['password'])
 
-    db.session.add(doctor)
-    db.session.commit()
+        db.session.add(doctor)
+        db.session.commit()
 
-    return jsonify({
-        'message': 'Doctor criado com sucesso',
-        'data': doctor.toMap()
-    }), 201
+        response_data = doctor.toMap()
+        response_data.pop('password', None)
+        response_data.pop('password_hash', None)
+
+        return jsonify({
+            'message': 'Doctor criado com sucesso',
+            'data': response_data
+        }), 201
+        
+    except ValidationError as e:
+        return jsonify({'message': 'Erro de validação', 'errors': e.errors}), 400
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'message': 'Erro ao criar médico', 'error': str(e)}), 500
