@@ -1,11 +1,11 @@
 import pytest
-from config import create_app
+from app_config import create_flask_app
 from database import db
 import os
 
 @pytest.fixture
 def app():
-    app = create_app(testing=True)
+    app = create_flask_app(testing=True)
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
     app.config["TESTING"] = True
     app.config['JWT_SECRET_KEY'] = os.getenv("JWT_KEY")
