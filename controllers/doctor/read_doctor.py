@@ -36,7 +36,6 @@ def search_by_id(id: int):
     except Exception as e:
         return jsonify({'message': 'Erro ao buscar médico', 'error': str(e)}), 500
 
-@jwt_required()
 def search_by_username(username: str, limit: int):
     try:
         if not username or len(username) < 2:
