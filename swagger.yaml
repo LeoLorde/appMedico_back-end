@@ -176,3 +176,5 @@ securityDefinitions:
     type: apiKey
     name: Authorization
     in: header
+
+tags: Doctor

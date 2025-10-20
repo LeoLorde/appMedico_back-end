@@ -1,0 +1,118 @@
+{
+    "Flask Create Object Controller": {
+		"prefix": "ccreate",
+		"body": [
+			"def create_${3:model_name}():",
+			"    data = request.get_json()",
+			"    ${3:model_name} = ${4:ModelName}(",
+			"        ${5:field_name}=data.get('${5:field_name}')",
+			"    )",
+			"    db.session.add(${3:model_name})",
+			"    db.session.commit()",
+			"    return {",
+			"        'message': '${4:ModelName} criado com sucesso',",
+			"        'data': ${3:model_name}.toMap()",
+			"    }, 201"
+		],
+		"description": "Cria um controller Flask para criar um novo objeto e salvar no banco"
+	},
+
+	"Flask Get Object By ID Controller": {
+		"prefix": "cbyid",
+		"body": [
+			"def get_${3:model_name}_by_id(${4:id}):",
+			"    ${3:model_name} = ${5:ModelName}.query.get(${4:id})",
+			"    if not ${3:model_name}:",
+			"        return {",
+			"            'message': '${5:ModelName} não encontrado'",
+			"        }, 404",
+			"    return {",
+			"        'data': ${3:model_name}.toMap()",
+			"    }, 200"
+		],
+		"description": "Cria um controller Flask para buscar um objeto pelo ID"
+	},
+
+	"Flask Delete Object Controller": {
+		"prefix": "cdel",
+		"body": [
+			"def delete_${3:model_name}(${4:id}):",
+			"    ${3:model_name} = ${5:ModelName}.query.get(${4:id})",
+			"    if not ${3:model_name}:",
+			"        return {",
+			"            'message': '${5:ModelName} não encontrado'",
+			"        }, 404",
+			"    db.session.delete(${3:model_name})",
+			"    db.session.commit()",
+			"    return {",
+			"        'message': '${5:ModelName} deletado com sucesso'",
+			"    }, 200"
+		],
+		"description": "Cria um controller Flask para deletar um objeto pelo ID"
+	},
+
+	"Flask Delete Object with JWT": {
+		"prefix": "cdeljwt",
+		"body": [
+			"from flask_jwt_extended import jwt_required",
+			"",
+			"@jwt_required()",
+			"def delete_${3:model_name}(${4:id}):",
+			"    ${3:model_name} = ${5:ModelName}.query.get(${4:id})",
+			"    if not ${3:model_name}:",
+			"        return {",
+			"            'message': '${5:ModelName} não encontrado'",
+			"        }, 404",
+			"    db.session.delete(${3:model_name})",
+			"    db.session.commit()",
+			"    return {",
+			"        'message': '${5:ModelName} deletado com sucesso'",
+			"    }, 200"
+		],
+		"description": "Controller Flask para deletar com JWT"
+	},
+
+	"Flask Update Object with JWT": {
+		"prefix": "cupjwt",
+		"body": [
+			"from flask_jwt_extended import jwt_required",
+			"",
+			"@jwt_required()",
+			"def update_${3:model_name}(${4:id}):",
+			"    data = request.get_json()",
+			"    ${3:model_name} = ${5:ModelName}.query.get(${4:id})",
+			"    if not ${3:model_name}:",
+			"        return {",
+			"            'message': '${5:ModelName} não encontrado'",
+			"        }, 404",
+			"    ${3:model_name}.${6:field_name} = data.get('${6:field_name}', ${3:model_name}.${6:field_name})",
+			"    db.session.commit()",
+			"    return {",
+			"        'message': '${5:ModelName} atualizado com sucesso',",
+			"        'data': ${3:model_name}.toMap()",
+			"    }, 200"
+		],
+		"description": "Controller Flask para atualizar com JWT"
+	},
+
+	"Flask Update Object": {
+		"prefix": "cup",
+		"body": [
+			"def update_${3:model_name}(${4:id}):",
+			"    data = request.get_json()",
+			"    ${3:model_name} = ${5:ModelName}.query.get(${4:id})",
+			"    if not ${3:model_name}:",
+			"        return {",
+			"            'message': '${5:ModelName} não encontrado'",
+			"        }, 404",
+			"    ${3:model_name}.${6:field_name} = data.get('${6:field_name}', ${3:model_name}.${6:field_name})",
+			"    db.session.commit()",
+			"    return {",
+			"        'message': '${5:ModelName} atualizado com sucesso',",
+			"        'data': ${3:model_name}.toMap()",
+			"    }, 200"
+		],
+		"description": "Controller Flask para atualizar com JWT"
+	},
+
+}

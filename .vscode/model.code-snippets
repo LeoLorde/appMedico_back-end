@@ -1,0 +1,50 @@
+{
+        "Flask Model": {
+        "prefix": "flaskmodel",
+        "body": [
+            "from app import db",
+            "",
+            "class ${1:ModelName}(db.Model):",
+            "    id = db.Column(db.Integer, primary_key=True)",
+            "    ${2:field_name} = db.Column(db.${3:String}, nullable=${4:False})",
+            "",
+            "    def __repr__(self):",
+            "        return f\"<${1:ModelName} ${2:field_name}={self.${2:field_name}}>\""
+        ],
+        "description": "Cria um modelo básico com Flask SQLAlchemy"
+    },
+
+    "Flask SQLAlchemy Relationship": {
+		"prefix": "flaskrel",
+		"body": [
+			"class ${1:ParentModel}(db.Model):",
+			"    id = db.Column(db.Integer, primary_key=True)",
+			"    ${2:children} = db.relationship('${3:ChildModel}', backref='${4:parent}', lazy='dynamic')",
+			"",
+			"class ${3:ChildModel}(db.Model):",
+			"    id = db.Column(db.Integer, primary_key=True)",
+			"    ${5:parent_id} = db.Column(db.Integer, db.ForeignKey('${1:ParentModel}.id'))"
+		],
+		"description": "Exemplo de relacionamento SQLAlchemy One-to-Many"
+  	},
+
+    	"Flask User Example": {
+		"prefix": "flaskuser",
+		"body": [
+			"from werkzeug.security import generate_password_hash, check_password_hash",
+			"from app import db",
+			"",
+			"class User(db.Model):",
+			"    id = db.Column(db.Integer, primary_key=True)",
+			"    username = db.Column(db.String(80), unique=True, nullable=False)",
+			"    password_hash = db.Column(db.String(128))",
+			"",
+			"    def set_password(self, password):",
+			"        self.password_hash = generate_password_hash(password)",
+			"",
+			"    def check_password(self, password):",
+			"        return check_password_hash(self.password_hash, password)"
+		],
+		"description": "Exemplo de model User com hash de senha"
+	},
+}
