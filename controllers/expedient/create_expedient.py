@@ -3,7 +3,7 @@ from models.expedient_model import Expediente
 from flask import request
 
 def create_expedient():
-    data = request.get_json()
+    data : dict = request.get_json()
     expedient = Expediente(
         horario_inicio=data.get('horario_inicio'),
         horario_fim=data.get('horario_fim'),
