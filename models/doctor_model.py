@@ -13,8 +13,8 @@ class Doctor(User):
     endereco_id = db.Column(db.String(128), db.ForeignKey('address.id'), nullable=False)
     endereco = db.relationship('Address', backref='doctor', uselist=False)  
     
-    expedient_id = db.Column(db.String(128), db.ForeignKey('expediente.id'), nullable=True)
-    expedient = db.relationship('Expediente', backreg='doctor', uselist=False)
+    expediente_id = db.Column(db.String(128), db.ForeignKey('expediente.id'), nullable=True)
+    expediente = db.relationship('Expediente', backref='doctor', uselist=False)
 
     def set_crm(self, crm):
         salt = bcrypt.gensalt()

@@ -4,6 +4,7 @@ from flask_jwt_extended import JWTManager
 import os
 
 from models.user_model import User
+from models.expedient_model import Expediente
 from models.appointment_model import Appointment
 from models.client_model import Client
 from models.doctor_model import Doctor
@@ -12,6 +13,7 @@ from models.endereco_model import Address
 from routes.client_routes import client_bp
 from routes.doctor_routes import doctor_bp
 from routes.address_routes import address_bp
+from routes.expedient_route import expedient_bp
 
 def create_flask_app(testing=False) -> Flask:
     app = Flask(__name__)
@@ -34,6 +36,7 @@ def create_flask_app(testing=False) -> Flask:
             print("  - Client:", Client)
             print("  - Appointment:", Appointment)
             print("  - Address:", Address)
+            print("  - Expendiente:",Expediente)
 
             print("\nTabelas encontradas pelo metadata:")
             print(list(db.metadata.tables.keys()))
@@ -47,5 +50,6 @@ def create_flask_app(testing=False) -> Flask:
     app.register_blueprint(client_bp)
     app.register_blueprint(doctor_bp)
     app.register_blueprint(address_bp)
+    app.register_blueprint(expedient_bp)
 
     return app

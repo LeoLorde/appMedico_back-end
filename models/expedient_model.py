@@ -7,7 +7,7 @@ class Expediente(db.Model):
     id = db.Column(db.String(128), primary_key=True, default=uuid.uuid4)
     horario_inicio = db.Column(db.Time, nullable=False)
     horario_fim = db.Column(db.Time, nullable=False)
-    dias_trabalho = db.Column(db.ARRAY(db.String), nullable=False)  
+    dias_trabalho = db.Column(db.JSON, nullable=False)
 
     def to_map(self):
         return {
