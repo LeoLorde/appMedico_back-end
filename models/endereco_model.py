@@ -1,9 +1,10 @@
 from database import db
+import uuid
 
 class Address(db.Model):
     __tablename__ = "address"
     
-    id = db.Column(db.String(128), primary_key=True)
+    id = db.Column(db.String(128), primary_key=True, default=lambda: str(uuid.uuid4()))
     cidade = db.Column(db.String, nullable=False)
     estado = db.Column(db.String(255), nullable=False)
     cep = db.Column(db.String(255), nullable=False)

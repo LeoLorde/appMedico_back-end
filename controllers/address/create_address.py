@@ -1,9 +1,7 @@
 from models.endereco_model import Address
 from flask import request, jsonify
-from flask_jwt_extended import jwt_required
 from database import db
 
-@jwt_required()
 def create_addres():
     try:
         data = request.get_json()

@@ -9,12 +9,10 @@ from limiter import limiter
 client_bp = Blueprint("client", "client", url_prefix="/client")
 
 @client_bp.route("/create", methods=["POST"])
-@limiter.limit("5 per hour")
 def criar_client():
     return create_client()
 
 @client_bp.route("/login", methods=["POST"])
-@limiter.limit("10 per minute")
 def login_cliente():
     return client_login()
 

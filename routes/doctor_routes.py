@@ -13,12 +13,10 @@ def index_main():
     return {"message": "connected"}
 
 @doctor_bp.route("/create", methods=["POST"])
-@limiter.limit("5 per hour")
 def create_doctor_func():
     return create_doctor()
 
 @doctor_bp.route("/login", methods=["POST"])
-@limiter.limit("10 per minute")
 def login_doctor():
     return doctor_login()
 

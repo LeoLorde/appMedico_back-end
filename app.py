@@ -15,7 +15,6 @@ app = create_flask_app()
 allowed_origins = os.getenv('ALLOWED_ORIGINS', 'http://localhost:3000').split(',')
 CORS(app)
 
-limiter.init_app(app)  # Inicializa aqui
 Flasgger(app, template_file="swagger.yaml")
 JWTManager(app)
 
