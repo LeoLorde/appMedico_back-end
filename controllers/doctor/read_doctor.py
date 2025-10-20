@@ -43,8 +43,14 @@ def search_by_username(username: str, limit: int):
             return jsonify({"message": "Username inválido"}), 400
         
         max_limit = min(limit, 100)
-        doctor_list: list[Doctor] = Doctor.query.filter_by(username=username).limit(max_limit).all()
-        
+
+        doctor_list: list[Doctor] = (
+            Doctor.query
+            .filter(Doctor.username.ilike(f"%{username}%"))
+            .limit(max_limit)
+            .all()
+        )
+
         if not doctor_list:
             return jsonify({"message": "Nenhum médico encontrado"}), 404
         
@@ -52,6 +58,6 @@ def search_by_username(username: str, limit: int):
             InputValidator.sanitize_output(doctor.toMap())
             for doctor in doctor_list
         ]), 200
-        
+
     except Exception as e:
         return jsonify({'message': 'Erro ao buscar médicos', 'error': str(e)}), 500
