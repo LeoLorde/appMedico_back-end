@@ -2,7 +2,7 @@ from database import db
 import uuid
 
 class Expediente(db.Model):
-    __tablename__ = 'expedientes'
+    __tablename__ = 'expediente'
 
     id = db.Column(db.String(128), primary_key=True, default=uuid.uuid4)
     horario_inicio = db.Column(db.Time, nullable=False)
