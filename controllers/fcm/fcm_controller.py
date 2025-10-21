@@ -1,14 +1,15 @@
 from flask import request, jsonify
+from flask_jwt_extended import jwt_required
 from database import db
 from models.fcm_token_model import FcmToken
 
+@jwt_required()
 def save_fcm_token():
     try:
         data = request.get_json()
         fcm_token = data.get('fcm_token')
         device_info = data.get('device_info')
         
-        # Dados do usuário vêm do middleware de autenticação JWT
         user_id = request.user['id']
         user_type = request.user['type']  # 'client' ou 'doctor'
         
@@ -42,7 +43,7 @@ def save_fcm_token():
     except Exception as e:
         return jsonify({'error': 'Erro ao salvar token FCM'}), 500
 
-
+@jwt_required()
 def delete_fcm_token():
     try:
         user_id = request.user['id']
