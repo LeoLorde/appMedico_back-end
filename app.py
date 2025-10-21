@@ -4,12 +4,16 @@ from flask_cors import CORS
 from flasgger import Flasgger
 from flask_jwt_extended import JWTManager
 import os
+from flask import Flask
+from routes.fcm_routes import fcm_bp
+from routes.notification_routes import notification_bp
 
 from app_config import create_flask_app
 from limiter import limiter
 
 load_dotenv()
 
+app = Flask(__name__)
 app = create_flask_app()
 
 allowed_origins = os.getenv('ALLOWED_ORIGINS', 'http://localhost:3000').split(',')
