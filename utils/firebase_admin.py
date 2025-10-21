@@ -2,7 +2,6 @@ import firebase_admin
 from firebase_admin import credentials, messaging
 import os
 
-# Inicializar Firebase Admin (fazer isso apenas uma vez)
 if not firebase_admin._apps:
     cred_path = os.getenv('FIREBASE_ADMIN_SDK_PATH', './firebase-adminsdk.json')
     cred = credentials.Certificate(cred_path)
@@ -29,7 +28,6 @@ def send_push_notification(fcm_token: str, title: str, body: str, data: dict = N
         data_strings = {k: str(v) for k, v in data.items()}
         data_strings['click_action'] = 'FLUTTER_NOTIFICATION_CLICK'
         
-        # Criar mensagem
         message = messaging.Message(
             token=fcm_token,
             notification=messaging.Notification(
@@ -54,18 +52,13 @@ def send_push_notification(fcm_token: str, title: str, body: str, data: dict = N
             )
         )
         
-        # Enviar mensagem
         response = messaging.send(message)
-        print(f'[v0] Notificação enviada com sucesso: {response}')
-        
         return {'success': True, 'message_id': response}
         
     except messaging.UnregisteredError:
-        print(f'[v0] Token inválido ou não registrado: {fcm_token}')
         return {'success': False, 'error': 'invalid_token'}
         
     except Exception as e:
-        print(f'[v0] Erro ao enviar notificação: {str(e)}')
         return {'success': False, 'error': str(e)}
 
 
@@ -86,6 +79,7 @@ def send_multicast_notification(fcm_tokens: list, title: str, body: str, data: d
         if data is None:
             data = {}
         
+        # Converter todos os valores para string (Firebase exige)
         data_strings = {k: str(v) for k, v in data.items()}
         
         message = messaging.MulticastMessage(
@@ -96,7 +90,6 @@ def send_multicast_notification(fcm_tokens: list, title: str, body: str, data: d
         )
         
         response = messaging.send_multicast(message)
-        print(f'[v0] {response.success_count} notificações enviadas com sucesso')
         
         return {
             'success': True,
@@ -105,5 +98,4 @@ def send_multicast_notification(fcm_tokens: list, title: str, body: str, data: d
         }
         
     except Exception as e:
-        print(f'[v0] Erro ao enviar notificações: {str(e)}')
         return {'success': False, 'error': str(e)}

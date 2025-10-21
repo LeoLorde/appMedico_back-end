@@ -9,8 +9,5 @@ flask_cors
 flasgger
 flask-limiter
 firebase-admin==6.3.0
-Flask==3.0.0
-SQLAlchemy==2.0.23
-psycopg2-binary==2.9.9  # Se usar PostgreSQL
-PyJWT==2.8.0  # Para autenticação JWT
 python-dotenv==1.0.0
+firebase-admin
