@@ -14,6 +14,8 @@ from routes.client_routes import client_bp
 from routes.doctor_routes import doctor_bp
 from routes.address_routes import address_bp
 from routes.expedient_route import expedient_bp
+from routes.fcm_routes import fcm_bp
+from routes.notification_routes import notification_bp
 
 def create_flask_app(testing=False) -> Flask:
     app = Flask(__name__)
@@ -51,5 +53,7 @@ def create_flask_app(testing=False) -> Flask:
     app.register_blueprint(doctor_bp)
     app.register_blueprint(address_bp)
     app.register_blueprint(expedient_bp)
+    app.register_blueprint(fcm_bp)
+    app.register_blueprint(notification_bp)
 
     return app
