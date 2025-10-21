@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from sqlalchemy.orm import Session
-from models.fcm_token import FcmToken
+from models.fcm_token_model import FcmToken
 from database import get_db  # Sua função para obter sessão do DB
 
 def save_fcm_token():

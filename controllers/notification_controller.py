@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from sqlalchemy.orm import Session
-from models.notification import Notification
-from models.fcm_token import FcmToken
+from models.notification_model import Notification
+from models.fcm_token_model import FcmToken
 from utils.firebase_admin import send_push_notification
 from database import get_db
 import math
