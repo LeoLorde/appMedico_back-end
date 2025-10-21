@@ -1,0 +1,10 @@
+{
+    "files.exclude": {
+        "**__pycache__": true,
+        "**.pytest_cache": true,
+        "**/docs": true,
+        "**/tests" : true,
+        "**notificacoesdoctorhub-firebase-adminsdk-fbsvc-f32791aee5.json": true,
+        "**/instance": true,
+  },
+}
