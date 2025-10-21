@@ -10,8 +10,8 @@ def save_fcm_token():
         fcm_token = data.get('fcm_token')
         device_info = data.get('device_info')
         
-        user_id = request.user['id']
-        user_type = request.user['type']  # 'client' ou 'doctor'
+        user_id = request.identity['id']
+        user_type = request.identity['type']  # 'client' ou 'doctor'
         
         if not fcm_token:
             return jsonify({'error': 'fcm_token é obrigatório'}), 400
@@ -46,8 +46,8 @@ def save_fcm_token():
 @jwt_required()
 def delete_fcm_token():
     try:
-        user_id = request.user['id']
-        user_type = request.user['type']
+        user_id = request.identity['id']
+        user_type = request.identity['type']
         
         FcmToken.query.filter_by(
             user_id=user_id,

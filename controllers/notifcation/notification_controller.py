@@ -7,8 +7,8 @@ import math
 
 def get_notifications():
     try:
-        user_id = request.user['id']
-        user_type = request.user['type']
+        user_id = request.identity['id']
+        user_type = request.identity['type']
         
         page = int(request.args.get('page', 1))
         limit = int(request.args.get('limit', 20))
@@ -42,8 +42,8 @@ def get_notifications():
 
 def mark_as_read(notification_id):
     try:
-        user_id = request.user['id']
-        user_type = request.user['type']
+        user_id = request.identity['id']
+        user_type = request.identity['type']
 
         notification = Notification.query.filter_by(
             id=notification_id,
