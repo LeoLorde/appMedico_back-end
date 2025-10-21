@@ -3,7 +3,6 @@ from flask import request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from utils.validators import InputValidator
 
-@jwt_required()
 def search_all(limit: int):
     try:
         max_limit = min(limit, 100)
@@ -20,7 +19,6 @@ def search_all(limit: int):
     except Exception as e:
         return jsonify({'message': 'Erro ao buscar clientes', 'error': str(e)}), 500
 
-@jwt_required()
 def search_by_id(id: int):
     try:
         current_user = get_jwt_identity()
@@ -36,7 +34,6 @@ def search_by_id(id: int):
     except Exception as e:
         return jsonify({'message': 'Erro ao buscar cliente', 'error': str(e)}), 500
 
-@jwt_required()    
 def search_by_username(username: str, limit: int):
     try:
         if not username or len(username) < 2:

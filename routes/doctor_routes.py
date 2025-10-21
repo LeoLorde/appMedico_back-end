@@ -3,6 +3,9 @@ from controllers.doctor.login_doctor import doctor_login
 from controllers.doctor.read_doctor import search_all, search_by_id, search_by_username
 from controllers.doctor.remove_doctor import delete_doctor
 from controllers.doctor.update_doctor import update_doctor
+
+from middlewares.auth_verificator import auth_middleware
+
 from flask import Blueprint
 from limiter import limiter
 
@@ -33,9 +36,11 @@ def get_username(username, limit):
     return search_by_username(username, limit)
 
 @doctor_bp.route("/update/<int:id>", methods=["PUT"])
+@auth_middleware
 def update_doctor_func(id):
     return update_doctor(id)
 
 @doctor_bp.route("/delete/<int:id>", methods=["DELETE"])
+@auth_middleware
 def doctor_delete(id):
     return delete_doctor(id)

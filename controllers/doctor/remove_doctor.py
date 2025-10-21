@@ -3,7 +3,6 @@ from models.doctor_model import Doctor
 from database import db
 from flask import jsonify
 
-@jwt_required()
 def delete_doctor(id):
     try:
         current_user = get_jwt_identity()

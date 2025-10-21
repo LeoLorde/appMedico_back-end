@@ -3,7 +3,6 @@ from models.client_model import Client
 from database import db
 from flask import jsonify
 
-@jwt_required()
 def delete_client(id):
     try:
         current_user = get_jwt_identity()

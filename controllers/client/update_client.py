@@ -4,7 +4,6 @@ from database import db
 from flask import request, jsonify
 from utils.validators import InputValidator, ValidationError
 
-@jwt_required()
 def update_client(id):
     try:
         current_user = get_jwt_identity()
