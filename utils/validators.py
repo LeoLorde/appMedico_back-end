@@ -2,6 +2,7 @@ from typing import Dict, Any, List, Optional
 from classes.cpf import CPF
 from classes.email import Email
 from classes.crm import CRM
+import uuid
 
 class ValidationError(Exception):
     """Custom exception for validation errors"""
@@ -18,7 +19,6 @@ class InputValidator:
         errors = {}
         validated = {}
         
-        # Username validation
         if 'username' in data:
             username = data.get('username', '').strip()
             if not username:
@@ -32,7 +32,6 @@ class InputValidator:
         elif not is_update:
             errors['username'] = 'Username é obrigatório'
         
-        # Password validation (only for creation or if provided in update)
         if 'password' in data:
             password = data.get('password', '')
             if not password and not is_update:
@@ -44,7 +43,6 @@ class InputValidator:
         elif not is_update:
             errors['password'] = 'Password é obrigatório'
         
-        # Email validation
         if 'email' in data:
             email = data.get('email', '').strip()
             if email:
@@ -57,7 +55,6 @@ class InputValidator:
         elif not is_update:
             errors['email'] = 'Email é obrigatório'
         
-        # CPF validation
         if 'cpf' in data:
             cpf = data.get('cpf', '').strip()
             if cpf:
@@ -81,7 +78,6 @@ class InputValidator:
         errors = {}
         validated = {}
         
-        # Username validation
         if 'username' in data:
             username = data.get('username', '').strip()
             if not username:
@@ -95,7 +91,6 @@ class InputValidator:
         elif not is_update:
             errors['username'] = 'Username é obrigatório'
         
-        # Password validation
         if 'password' in data:
             password = data.get('password', '')
             if not password and not is_update:
@@ -107,7 +102,6 @@ class InputValidator:
         elif not is_update:
             errors['password'] = 'Password é obrigatório'
         
-        # Email validation
         if 'email' in data:
             email = data.get('email', '').strip()
             if email:
@@ -120,7 +114,6 @@ class InputValidator:
         elif not is_update:
             errors['email'] = 'Email é obrigatório'
         
-        # CRM validation
         if 'crm' in data:
             crm = data.get('crm', '').strip()
             if crm:
@@ -133,7 +126,6 @@ class InputValidator:
         elif not is_update:
             errors['crm'] = 'CRM é obrigatório'
         
-        # Specialty validation
         if 'specialty' in data:
             specialty = data.get('specialty', '').strip()
             if specialty:
@@ -155,33 +147,26 @@ class InputValidator:
         errors = {}
         validated = {}
         
-        # Client ID validation
         if 'client_id' in data:
+            client_id = data.get('client_id', '').strip()
             try:
-                client_id = int(data['client_id'])
-                if client_id <= 0:
-                    errors['client_id'] = 'Client ID deve ser um número positivo'
-                else:
-                    validated['client_id'] = client_id
-            except (ValueError, TypeError):
-                errors['client_id'] = 'Client ID inválido'
+                uuid.UUID(client_id)
+                validated['client_id'] = client_id
+            except ValueError:
+                errors['client_id'] = 'Client ID inválido, deve ser um UUID válido'
         else:
             errors['client_id'] = 'Client ID é obrigatório'
         
-        # Doctor ID validation
         if 'doctor_id' in data:
+            doctor_id = data.get('doctor_id', '').strip()
             try:
-                doctor_id = int(data['doctor_id'])
-                if doctor_id <= 0:
-                    errors['doctor_id'] = 'Doctor ID deve ser um número positivo'
-                else:
-                    validated['doctor_id'] = doctor_id
-            except (ValueError, TypeError):
-                errors['doctor_id'] = 'Doctor ID inválido'
+                uuid.UUID(doctor_id)
+                validated['doctor_id'] = doctor_id
+            except ValueError:
+                errors['doctor_id'] = 'Doctor ID inválido, deve ser um UUID válido'
         else:
             errors['doctor_id'] = 'Doctor ID é obrigatório'
         
-        # Date validation
         if 'date' in data:
             date = data.get('date', '').strip()
             if not date:
@@ -191,7 +176,6 @@ class InputValidator:
         else:
             errors['date'] = 'Data é obrigatória'
         
-        # Time validation
         if 'time' in data:
             time = data.get('time', '').strip()
             if not time:
