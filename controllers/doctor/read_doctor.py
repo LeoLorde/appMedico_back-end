@@ -19,16 +19,13 @@ def search_all(limit: int):
     except Exception as e:
         return jsonify({'message': 'Erro ao buscar médicos', 'error': str(e)}), 500
 
-def search_by_id(id: int):
+def search_by_id(id: str):
     try:
-        current_user = get_jwt_identity()
-        if current_user.get('type') == 'doctor' and current_user.get('id') != id:
-            return jsonify({'message': 'Acesso negado'}), 403
-        
+        print(id)
         doctor: Doctor = Doctor.query.filter_by(id=id).first()
         if not doctor:
             return jsonify({"message": "Nenhum médico encontrado"}), 404
-        
+        print("FOI AQUI")
         return jsonify(InputValidator.sanitize_output(doctor.toMap())), 200
         
     except Exception as e:

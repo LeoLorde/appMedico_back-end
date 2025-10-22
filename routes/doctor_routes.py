@@ -27,7 +27,7 @@ def login_doctor():
 def get_all(limit):
     return search_all(limit)
 
-@doctor_bp.route("/id/<int:id>")
+@doctor_bp.route("/id/<string:id>")
 def get_id(id):
     return search_by_id(id)
 
