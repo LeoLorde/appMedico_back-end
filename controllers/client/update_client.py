@@ -6,8 +6,7 @@ from utils.validators import InputValidator, ValidationError
 
 def update_client(id):
     try:
-        current_user = get_jwt_identity()
-        if current_user.get('type') != 'client' or current_user.get('id') != id:
+        if request.identity.get('type') != 'client' or request.identity.get('id') != id:
             return jsonify({'message': 'Acesso negado. Você só pode atualizar seu próprio perfil'}), 403
         
         data = request.get_json()

@@ -24,7 +24,11 @@ def client_login():
             return jsonify({'message': 'Credenciais inválidas'}), 401
         
         access_token = create_access_token(
-            identity={'email': email, 'id': client_exist.id, 'type': 'client'},
+            identity=str(client_exist.id), 
+            additional_claims={
+                "email": email,
+                "type": "client"
+            },
             expires_delta=timedelta(hours=1)
         )
         

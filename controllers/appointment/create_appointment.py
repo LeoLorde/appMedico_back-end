@@ -38,7 +38,8 @@ def create_appointment():
         appointment = Appointment(
             data_marcada=data.get('data_marcada'),
             client_id=validated_data['client_id'],
-            doctor_id=validated_data['doctor_id']
+            doctor_id=validated_data['doctor_id'],
+            is_confirmed="pending"
         )
         
         db.session.add(appointment)

@@ -10,6 +10,8 @@ class Appointment(db.Model):
     client = db.relationship('Client', backref='appointments', lazy=True)
     doctor = db.relationship('Doctor', backref='appointments', lazy=True)
     
+    is_confirmed = db.Column(db.String(32), nullable=False)
+    
     def __repr__(self):
         return (
             f"<Appointment "
