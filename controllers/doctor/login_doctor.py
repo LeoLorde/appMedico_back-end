@@ -21,10 +21,13 @@ def doctor_login():
             return jsonify({'message': 'Credenciais inválidas'}), 401
         
         access_token = create_access_token(
-            identity=str({'email': email, 'id': doctor_exist.id, 'type': 'doctor'}),
+            identity=str(doctor_exist.id), 
+            additional_claims={
+                "email": email,
+                "type": "doctor"
+            },
             expires_delta=timedelta(hours=1)
         )
-        
         return jsonify({
             'access_token': access_token,
             'user': {

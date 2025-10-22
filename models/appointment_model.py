@@ -7,6 +7,8 @@ class Appointment(db.Model):
 
     client_id = db.Column(db.String(128), db.ForeignKey('client.id'), nullable=False) 
     doctor_id = db.Column(db.String(128), db.ForeignKey('doctor.id'), nullable=False)
+    motivo = db.Column(db.String(128), nullable=True)
+    plano_de_saude = db.Column(db.String(256), nullable=False, default="none")
 
     client = db.relationship('Client', backref='appointments', lazy=True)
     doctor = db.relationship('Doctor', backref='appointments', lazy=True)
@@ -23,7 +25,10 @@ class Appointment(db.Model):
         
     def toMap(self):
         return {
-            "data_marcada": self.data_marcada,
+            "data_marcada": self.data_marcada.isoformat() if self.data_marcada else None,
             "client_id": self.client_id,
-            "doctor_id": self.doctor_id
+            "doctor_id": self.doctor_id,
+            "id": self.id,
+            "motivo": self.motivo,
+            "plano_de_saude": self.plano_de_saude
         }
