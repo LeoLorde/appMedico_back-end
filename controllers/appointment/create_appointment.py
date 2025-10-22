@@ -4,27 +4,22 @@ from models.client_model import Client
 from models.doctor_model import Doctor
 from flask import request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from utils.validators import InputValidator, ValidationError
+from datetime import datetime
 
 @jwt_required()
 def create_appointment():
+    print("RECEIVED REQUEST")
     try:
         data = request.get_json()
         current_user = get_jwt_identity()
         
         validated_data = {
-            'client_id': data.get('client_id'),
             'doctor_id': data.get('doctor_id'),
             'date': data.get('data_marcada', ''),
             'time': ''
         }
         
-        try:
-            validated_data = InputValidator.validate_appointment_data(validated_data)
-        except ValidationError as e:
-            return jsonify({'message': 'Erro de validação', 'errors': e.errors}), 400
-        
-        client = Client.query.get(validated_data['client_id'])
+        client = Client.query.get(current_user)
         if not client:
             return jsonify({'message': 'Cliente não encontrado'}), 404
         
@@ -32,12 +27,13 @@ def create_appointment():
         if not doctor:
             return jsonify({'message': 'Médico não encontrado'}), 404
         
-        if current_user.get('type') == 'client' and current_user.get('id') != validated_data['client_id']:
+        if current_user != current_user:
             return jsonify({'message': 'Você só pode criar agendamentos para si mesmo'}), 403
         
+        print(data.get('data_marcada'))
         appointment = Appointment(
-            data_marcada=data.get('data_marcada'),
-            client_id=validated_data['client_id'],
+            data_marcada=datetime.fromisoformat(data.get('data_marcada')),
+            client_id=current_user,
             doctor_id=validated_data['doctor_id'],
             is_confirmed="pending"
         )
@@ -52,4 +48,5 @@ def create_appointment():
         
     except Exception as e:
         db.session.rollback()
+        print(e)
         return jsonify({'message': 'Erro ao criar agendamento', 'error': str(e)}), 500

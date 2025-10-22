@@ -1,7 +1,8 @@
 from database import db
+import uuid
 
 class Appointment(db.Model):
-    id = db.Column(db.String(128), primary_key=True)
+    id = db.Column(db.String(128), primary_key=True, default=lambda: str(uuid.uuid4()))
     data_marcada = db.Column(db.DateTime, nullable=False)
 
     client_id = db.Column(db.String(128), db.ForeignKey('client.id'), nullable=False) 
