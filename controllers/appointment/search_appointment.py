@@ -27,3 +27,27 @@ def search_by_doctor_appointment():
         db.session.rollback()
         print(e)
         return jsonify({'message': 'Erro ao criar agendamento', 'error': str(e)}), 500
+
+@jwt_required()
+def search_by_doctor_pending_appointment():
+    try:
+        id = get_jwt_identity()
+        print(id)
+        doctor = Doctor.query.get(id)
+        print(doctor)
+        if not doctor:
+            return jsonify({'message': 'Médico não encontrado'}), 404
+
+        app_list = Appointment.query.filter_by(doctor_id=id).filter_by(is_confirmed="pending").all()
+        
+        lista = [app.toMap() for app in app_list]
+        print(lista)
+        return jsonify({
+            'message': 'Agendamento criado com sucesso',
+            'data': [app.toMap() for app in app_list]
+        }), 200
+        
+    except Exception as e:
+        db.session.rollback()
+        print(e)
+        return jsonify({'message': 'Erro ao criar agendamento', 'error': str(e)}), 500
