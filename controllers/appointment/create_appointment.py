@@ -35,7 +35,8 @@ def create_appointment():
             data_marcada=datetime.fromisoformat(data.get('data_marcada')),
             client_id=current_user,
             doctor_id=validated_data['doctor_id'],
-            is_confirmed="pending"
+            is_confirmed="pending",
+            motivo=data.get("motivo")
         )
         
         db.session.add(appointment)

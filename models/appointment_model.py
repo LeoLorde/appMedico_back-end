@@ -30,5 +30,6 @@ class Appointment(db.Model):
             "doctor_id": self.doctor_id,
             "id": self.id,
             "motivo": self.motivo,
-            "plano_de_saude": self.plano_de_saude
+            "plano_de_saude": self.plano_de_saude,
+            "is_confirmed": self.is_confirmed
         }

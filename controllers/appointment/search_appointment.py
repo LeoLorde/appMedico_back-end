@@ -13,9 +13,7 @@ def search_by_doctor_appointment():
         print(doctor)
         if not doctor:
             return jsonify({'message': 'Médico não encontrado'}), 404
-
-        app_list = Appointment.query.filter_by(doctor_id=id).all()
-        
+        app_list = Appointment.query.filter_by(doctor_id=id).filter(Appointment.is_confirmed != "refused").all()
         lista = [app.toMap() for app in app_list]
         print(lista)
         return jsonify({
@@ -36,6 +34,7 @@ def search_by_doctor_pending_appointment():
         doctor = Doctor.query.get(id)
         print(doctor)
         if not doctor:
+            print("Não achamos doutor")
             return jsonify({'message': 'Médico não encontrado'}), 404
 
         app_list = Appointment.query.filter_by(doctor_id=id).filter_by(is_confirmed="pending").all()
