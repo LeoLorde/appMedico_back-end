@@ -1,6 +1,6 @@
 from controllers.appointment.create_appointment import create_appointment
 from controllers.appointment.confirm_appointment import confirm_appointment
-from controllers.appointment.search_appointment import search_by_doctor_appointment, search_by_doctor_pending_appointment
+from controllers.appointment.search_appointment import search_by_doctor_appointment, search_by_doctor_pending_appointment, search_by_client_appointment
 from controllers.appointment.refuse_appointment import refused_appointment
 from flask import Blueprint
 
@@ -25,3 +25,7 @@ def ref_app():
 @appointment_bp.route("/doc/pending", methods=["GET"])
 def by_doctor_pend():
     return search_by_doctor_pending_appointment()
+
+@appointment_bp.route("/client", methods=["GET"])
+def by_client():
+    return search_by_client_appointment()
