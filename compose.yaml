@@ -1,0 +1,33 @@
+
+
+services:
+  backend:
+    build:
+      context: .
+      target: builder
+    restart: always
+    ports:
+      - 8000:8000
+    networks:
+      - backnet
+      - frontnet
+    volumes:
+      - ./backend/app.db:/app/app.db 
+    environment:
+      - FLASK_APP=app.py        
+      - FLASK_ENV=development
+
+  proxy:
+    build: proxy
+    restart: always
+    ports:
+      - 80:80   
+    networks:
+      - frontnet
+      - backnet
+    depends_on:
+      - backend
+
+networks:
+  backnet:
+  frontnet:
