@@ -8,6 +8,13 @@ import os
 from app_config import create_flask_app
 from limiter import limiter
 
+import firebase_admin
+from firebase_admin import credentials, messaging
+
+if not firebase_admin._apps:
+    cred = credentials.Certificate("doctorhub-1f3c2-firebase-adminsdk-fbsvc-1d210b52b8.json")
+    firebase_admin.initialize_app(cred)
+
 load_dotenv()
 
 app = create_flask_app()
