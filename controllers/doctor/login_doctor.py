@@ -12,14 +12,16 @@ def doctor_login():
         if not email or not password:
             return jsonify({'message': 'Email e senha são obrigatórios'}), 400
 
+        print("CHEGOU AQUI")
         doctor_exist: Doctor = Doctor.query.filter_by(email=email).first()
-        
+        print("CHEGOU AQUI 2")
         if doctor_exist is None:
+            print("CHEGOU AQUI 3")
             return jsonify({'message': 'Credenciais inválidas'}), 401
         
         if not doctor_exist.check_password(password):
             return jsonify({'message': 'Credenciais inválidas'}), 401
-        b
+        print("CHEGOU AQUI 4")
         access_token = create_access_token(
             identity=str(doctor_exist.id), 
             additional_claims={
@@ -37,7 +39,7 @@ def doctor_login():
                 'crm': doctor_exist.crm,
                 'especialidade': doctor_exist.especialidade
             }
-        }),
+        })
         print(response)
         return response, 200
         

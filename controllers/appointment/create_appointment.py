@@ -2,8 +2,10 @@ from database import db
 from models.appointment_model import Appointment
 from models.client_model import Client
 from models.doctor_model import Doctor
+from models.fcm_token_model import FcmToken
 from flask import request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from utils.send_message import send_message
 from datetime import datetime, timedelta
 
 @jwt_required()
@@ -64,6 +66,12 @@ def create_appointment():
         
         db.session.add(appointment)
         db.session.commit()
+        doctor : Doctor = doctor
+        
+        print("CHEGOU AQUI")
+        token : FcmToken = FcmToken.query.filter_by(user_id=client.id).first()
+        print(token)
+        send_message(token.fcm_token)
 
         print("DB URI:", db.engine.url)
         print(f"Agendamento criado para {appointment_time} - {end_time}")

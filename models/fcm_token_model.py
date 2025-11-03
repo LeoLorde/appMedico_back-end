@@ -5,8 +5,8 @@ class FcmToken(db.Model):
     __tablename__ = 'fcm_tokens'
     
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, nullable=False)
-    fcm_token = db.Column(db.String, nullable=False, unique=True)
+    user_id = db.Column(db.Integer, nullable=False, unique=True)
+    fcm_token = db.Column(db.String, nullable=False)
     device_info = db.Column(db.String(255), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.now())
     updated_at = db.Column(db.DateTime, default=datetime.now(), onupdate=datetime.now())
