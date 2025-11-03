@@ -71,7 +71,11 @@ def create_appointment():
         print("CHEGOU AQUI")
         token : FcmToken = FcmToken.query.filter_by(user_id=client.id).first()
         print(token)
-        send_message(token.fcm_token)
+        send_message(token.fcm_token, "Sua consulta foi enviada ao Doutor", "Consulta Enviada")
+        
+        token : FcmToken = FcmToken.query.filter_by(user_id=doctor.id).first()
+        print(token)
+        send_message(token.fcm_token, f"Nova solicitação de consulta recebida: {appointment.motivo}", "Solicitação de Consulta")
 
         print("DB URI:", db.engine.url)
         print(f"Agendamento criado para {appointment_time} - {end_time}")

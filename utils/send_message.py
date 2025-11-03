@@ -1,4 +1,4 @@
-def send_message(token):
+def send_message(token, message, title):
     import firebase_admin
     from firebase_admin import messaging
 
@@ -9,8 +9,8 @@ def send_message(token):
 
     message = messaging.Message(
         notification=messaging.Notification(
-            title="Nova solicitação de consulta 🩺",
-            body="Um paciente solicitou uma nova consulta!",
+            title=title,
+            body=message,
         ),
         token=token,
     )
