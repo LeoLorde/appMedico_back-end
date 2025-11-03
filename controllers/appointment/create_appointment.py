@@ -27,30 +27,31 @@ def create_appointment():
         if not doctor:
             return jsonify({'message': 'Médico não encontrado'}), 404
         
-        if current_user != current_user:
-            return jsonify({'message': 'Você só pode criar agendamentos para si mesmo'}), 403
-        
+        duration_minutes = int(doctor.horario_min)
         appointment_time = datetime.fromisoformat(data.get('data_marcada'))
-        duration_minutes = doctor.horario_min 
+        appointment_time = appointment_time.replace(tzinfo=None)
         end_time = appointment_time + timedelta(minutes=duration_minutes)
-        
+
         doctor_appointments = Appointment.query.filter(
-            Appointment.doctor_id == doctor.id,
-            Appointment.data_marcada < end_time,
-            (Appointment.data_marcada + timedelta(minutes=Appointment.duration)) > appointment_time
+            Appointment.doctor_id == doctor.id
         ).all()
-        
-        if doctor_appointments:
-            return jsonify({'message': 'O médico não está disponível neste horário.'}), 400
+
+        for appt in doctor_appointments:
+            appt_start = appt.data_marcada
+            appt_end = appt_start + timedelta(minutes=appt.duration)
+            if appointment_time < appt_end and end_time > appt_start:
+                print("Não está dispnivel (medico)")
+                return jsonify({'message': 'O médico não está disponível neste horário.'}), 400
 
         client_appointments = Appointment.query.filter(
-            Appointment.client_id == current_user,
-            Appointment.data_marcada < end_time,
-            (Appointment.data_marcada + timedelta(minutes=Appointment.duration)) > appointment_time
+            Appointment.client_id == current_user
         ).all()
 
-        if client_appointments:
-            return jsonify({'message': 'Você já tem um agendamento nesse horário.'}), 400
+        for appt in client_appointments:
+            appt_start = appt.data_marcada
+            appt_end = appt_start + timedelta(minutes=appt.duration)
+            if appointment_time < appt_end and end_time > appt_start:
+                return jsonify({'message': 'Você já tem um agendamento nesse horário.'}), 400
 
         appointment = Appointment(
             data_marcada=appointment_time,
@@ -63,13 +64,16 @@ def create_appointment():
         
         db.session.add(appointment)
         db.session.commit()
-        
+
+        print("DB URI:", db.engine.url)
+        print(f"Agendamento criado para {appointment_time} - {end_time}")
+
         return jsonify({
             'message': 'Agendamento criado com sucesso',
             'data': appointment.toMap()
         }), 201
-        
+
     except Exception as e:
         db.session.rollback()
-        print(e)
+        print(f"Error: {e}")
         return jsonify({'message': 'Erro ao criar agendamento', 'error': str(e)}), 500
