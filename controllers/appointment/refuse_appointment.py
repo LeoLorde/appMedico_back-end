@@ -2,6 +2,9 @@ from database import db
 from models.appointment_model import Appointment
 from flask import request, jsonify
 from flask_jwt_extended import jwt_required
+from models.fcm_token_model import FcmToken
+from models.client_model import Client
+from utils.send_message import send_message
 
 @jwt_required()
 def refused_appointment():
@@ -15,6 +18,11 @@ def refused_appointment():
         
         db.session.add(appoint)
         db.session.commit()
+        
+        token : FcmToken = FcmToken.query.filter_by(user_id=appoint.client_id).first()
+        print(token)
+        send_message(token.fcm_token, "Sua consulta foi recusada", "Consulta Recusada")
+        
         
         return jsonify({
             "message": appoint.toMap()
