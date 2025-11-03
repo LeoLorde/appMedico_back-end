@@ -28,7 +28,7 @@ def doctor_login():
             },
             expires_delta=timedelta(hours=1)
         )
-        return jsonify({
+        response = jsonify({
             'access_token': access_token,
             'user': {
                 'id': doctor_exist.id,
@@ -37,7 +37,9 @@ def doctor_login():
                 'crm': doctor_exist.crm,
                 'especialidade': doctor_exist.especialidade
             }
-        }), 200
+        }),
+        print(response)
+        return response, 200
         
     except Exception as e:
         return jsonify({'message': 'Erro ao fazer login', 'error': str(e)}), 500
