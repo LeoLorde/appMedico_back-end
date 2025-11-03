@@ -19,7 +19,7 @@ def doctor_login():
         
         if not doctor_exist.check_password(password):
             return jsonify({'message': 'Credenciais inválidas'}), 401
-        
+        b
         access_token = create_access_token(
             identity=str(doctor_exist.id), 
             additional_claims={

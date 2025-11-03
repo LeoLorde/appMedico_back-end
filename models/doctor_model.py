@@ -16,6 +16,8 @@ class Doctor(User):
     expediente_id = db.Column(db.String(128), db.ForeignKey('expediente.id'), nullable=True)
     expediente = db.relationship('Expediente', backref='doctor', uselist=False)
 
+    horario_min = db.Column(db.Integer, nullable=False, default=30)
+    
     def set_crm(self, crm):
         salt = bcrypt.gensalt()
         self.crm = bcrypt.hashpw(crm.encode(), salt).decode() 
