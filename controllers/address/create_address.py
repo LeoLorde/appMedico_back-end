@@ -37,4 +37,5 @@ def create_addres():
         
     except Exception as e:
         db.session.rollback()
+        print(e)
         return jsonify({'message': 'Erro ao criar endereço', 'error': str(e)}), 500
