@@ -3,11 +3,13 @@ from models.expedient_model import Expediente
 from models.doctor_model import Doctor
 from flask import request
 from datetime import datetime
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
+@jwt_required()
 def create_expedient():
     try:
+        doctor_id = get_jwt_identity()
         data: dict = request.get_json()
-        doctor_id = data.get("doctor_id")
         
         horario_inicio_str = data.get('horario_inicio')
         horario_fim_str = data.get('horario_fim')
