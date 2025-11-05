@@ -36,7 +36,11 @@ def search_available_time():
             return time_obj.hour * 60 + time_obj.minute
         
         def minutes_to_time(minutes):
-            return timedelta(minutes=minutes)
+            time = timedelta(minutes=minutes)
+            total_seconds = int(time.total_seconds())
+            hours, remainder = divmod(total_seconds, 3600)
+            minutes_only = remainder // 60
+            return f"{hours:02d}:{minutes_only:02d}"
         
         inicio_minutos = time_to_minutes(data_inicio)
         fim_minutos = time_to_minutes(data_fim)
