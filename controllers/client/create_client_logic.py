@@ -66,7 +66,7 @@ def validate_client_data(data: dict) -> Client:
     
     print("1.1/4 - Validando e convertendo data de nascimento:", data_nascimento)
     parsed_date = _try_parse_data(data_nascimento)
-    if isinstance(parsed_date, tuple):  # Caso tenha retornado um erro
+    if isinstance(parsed_date, tuple):
         return parsed_date
     
     print("1.2/4 - Validando existência de usuário")
