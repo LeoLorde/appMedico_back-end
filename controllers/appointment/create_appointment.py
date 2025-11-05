@@ -50,11 +50,18 @@ def create_appointment():
         ).all()
 
         for appt in client_appointments:
+            appt : Appointment = appt
             appt_start = appt.data_marcada
             appt_end = appt_start + timedelta(minutes=appt.duration)
             if appointment_time < appt_end and end_time > appt_start:
                 return jsonify({'message': 'Você já tem um agendamento nesse horário.'}), 400
 
+        print("--------")
+        print(f"DATA RECEBIDA: {data.get("data_marcada")}")
+        print(f"DATA UTILIZADA: {appt.data_marcada}")
+        print("--------")
+        
+        
         appointment = Appointment(
             data_marcada=appointment_time,
             client_id=current_user,
@@ -68,13 +75,10 @@ def create_appointment():
         db.session.commit()
         doctor : Doctor = doctor
         
-        print("CHEGOU AQUI")
         token : FcmToken = FcmToken.query.filter_by(user_id=client.id).first()
-        print(token)
         send_message(token.fcm_token, "Sua consulta foi enviada ao Doutor", "Consulta Enviada")
         
         token : FcmToken = FcmToken.query.filter_by(user_id=doctor.id).first()
-        print(token)
         send_message(token.fcm_token, f"Nova solicitação de consulta recebida: {appointment.motivo}", "Solicitação de Consulta")
 
         print("DB URI:", db.engine.url)
