@@ -5,11 +5,11 @@ from utils.validators import InputValidator
 
 def search_by_id(id: int):
     try:
-        doctor: Expediente = Expediente.query.filter_by(id=id).first()
-        if not doctor:
+        expediente: Expediente = Expediente.query.filter_by(id=id).first()
+        if not expediente:
             return jsonify({"message": "Nenhum expediente encontrado"}), 404
         
-        return jsonify(InputValidator.sanitize_output(doctor.toMap())), 200
+        return jsonify(InputValidator.sanitize_output(expediente.toMap())), 200
         
     except Exception as e:
         return jsonify({'message': 'Erro ao buscar expediente', 'error': str(e)}), 500

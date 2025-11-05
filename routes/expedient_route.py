@@ -8,6 +8,6 @@ expedient_bp = Blueprint("expediente", "expediente", url_prefix="/expediente")
 def criar_expedient():
     return create_expedient()
 
-@expedient_bp.route("/id/<int:id>", methods=["GET"])
+@expedient_bp.route("/id/<string:id>", methods=["GET"])
 def get_expediente(id):
     return search_by_id(id)

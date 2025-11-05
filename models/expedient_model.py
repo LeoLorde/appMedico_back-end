@@ -4,7 +4,7 @@ import uuid
 class Expediente(db.Model):
     __tablename__ = 'expediente'
 
-    id = db.Column(db.String(128), primary_key=True, default=uuid.uuid4)
+    id = db.Column(db.String(128), primary_key=True, default=str(uuid.uuid4()))
     horario_inicio = db.Column(db.Time, nullable=False)
     horario_fim = db.Column(db.Time, nullable=False)
     dias_trabalho = db.Column(db.JSON, nullable=False)
