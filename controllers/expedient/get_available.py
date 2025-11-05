@@ -15,11 +15,19 @@ def search_available_time():
         
         requested_date = datetime.strptime(date_str, "%Y-%m-%d")
         
+        weekday = requested_date.weekday()
+        dias_semana = ["segunda", "terça", "quarta", "quinta", "sexta", "sabado", "domingo"]
+        
+        dia_semana_nome = dias_semana[weekday]
+        
         doctor: Doctor = Doctor.query.filter_by(id=data.get("id")).first()
         if not doctor:
             return jsonify({'message': 'Médico não encontrado.'}), 404
         
         expediente: Expediente = doctor.expediente
+        if(dia_semana_nome not in expediente.dias_trabalho):
+            return jsonify({"Horario":[]})
+        
         data_inicio = expediente.horario_inicio
         data_fim = expediente.horario_fim
         tempo_medio = doctor.horario_min
