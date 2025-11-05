@@ -55,11 +55,6 @@ def create_appointment():
             appt_end = appt_start + timedelta(minutes=appt.duration)
             if appointment_time < appt_end and end_time > appt_start:
                 return jsonify({'message': 'Você já tem um agendamento nesse horário.'}), 400
-
-        print("--------")
-        print(f"DATA RECEBIDA: {data.get("data_marcada")}")
-        print(f"DATA UTILIZADA: {appt.data_marcada}")
-        print("--------")
         
         
         appointment = Appointment(
@@ -70,7 +65,10 @@ def create_appointment():
             motivo=data.get("motivo"),
             duration=duration_minutes
         )
-        
+        print("--------")
+        print(f"DATA RECEBIDA: {data.get("data_marcada")}")
+        print(f"DATA UTILIZADA: {appointment.data_marcada}")
+        print("--------")
         db.session.add(appointment)
         db.session.commit()
         doctor : Doctor = doctor
