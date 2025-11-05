@@ -3,6 +3,7 @@ from flask import jsonify, request
 from models.expedient_model import Expediente
 from models.doctor_model import Doctor
 from utils.validators import InputValidator
+from datetime import timedelta
 
 def search_available_time():
     try:
@@ -16,17 +17,24 @@ def search_available_time():
         
         def time_to_minutes(time_obj):
             return time_obj.hour * 60 + time_obj.minute
-
+        
+        def minutes_to_time(minutes):
+            return timedelta(minutes=minutes)
+        
         inicio_minutos = time_to_minutes(data_inicio)
         fim_minutos = time_to_minutes(data_fim)
 
         disponivel_em_minutos = fim_minutos - inicio_minutos
-
         num_horarios_disponiveis = disponivel_em_minutos // tempo_medio
+        
+        horarios_disponiveis = []
+        
+        for i in range(num_horarios_disponiveis):
+            horario_disponivel = inicio_minutos + (i * tempo_medio)
+            horario_obj = minutes_to_time(horario_disponivel)
+            horarios_disponiveis.append(str(horario_obj))
 
-        print(f'Número de horários disponíveis: {num_horarios_disponiveis}')
-        return {"Horarios" : num_horarios_disponiveis}
-
+        return jsonify({"Horarios": horarios_disponiveis})
         
     except Exception as e:
         return jsonify({'message': 'Erro ao buscar expediente', 'error': str(e)}), 500
