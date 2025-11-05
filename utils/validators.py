@@ -15,63 +15,91 @@ class InputValidator:
     
     @staticmethod
     def validate_client_data(data: Dict[str, Any], is_update: bool = False) -> Dict[str, Any]:
-        """Validate client input data"""
+        print("\n--- Starting Routine - Validate Client Data ---")
+        print("0/2 - Iniciando validação dos dados do cliente")
         errors = {}
         validated = {}
-        
+
         if 'username' in data:
+            print("0.1/2 - Verificando 'username'...")
             username = data.get('username', '').strip()
             if not username:
+                print("0.1.1/2 - Username vazio")
                 errors['username'] = 'Username é obrigatório'
             elif len(username) < 3:
+                print("0.1.2/2 - Username com menos de 3 caracteres")
                 errors['username'] = 'Username deve ter no mínimo 3 caracteres'
             elif len(username) > 50:
+                print("0.1.3/2 - Username com mais de 50 caracteres")
                 errors['username'] = 'Username deve ter no máximo 50 caracteres'
             else:
+                print("0.1.4/2 - Username válido:", username)
                 validated['username'] = username
         elif not is_update:
+            print("0.1.5/2 - Username não encontrado e não é atualização")
             errors['username'] = 'Username é obrigatório'
-        
+
         if 'password' in data:
+            print("0.2/2 - Verificando 'password'...")
             password = data.get('password', '')
             if not password and not is_update:
+                print("0.2.1/2 - Password vazio e não é atualização")
                 errors['password'] = 'Password é obrigatório'
             elif password and len(password) < 6:
+                print("0.2.2/2 - Password com menos de 6 caracteres")
                 errors['password'] = 'Password deve ter no mínimo 6 caracteres'
             elif password:
+                print("0.2.3/2 - Password válido")
                 validated['password'] = password
         elif not is_update:
+            print("0.2.4/2 - Password não encontrado e não é atualização")
             errors['password'] = 'Password é obrigatório'
-        
+
         if 'email' in data:
+            print("0.3/2 - Verificando 'email'...")
             email = data.get('email', '').strip()
             if email:
                 if not Email.is_valid(email):
+                    print("0.3.1/2 - Email inválido")
                     errors['email'] = 'Email inválido'
                 else:
+                    print("0.3.2/2 - Email válido:", email)
                     validated['email'] = Email.parse(email)
             elif not is_update:
+                print("0.3.3/2 - Email vazio e não é atualização")
                 errors['email'] = 'Email é obrigatório'
         elif not is_update:
+            print("0.3.4/2 - Email não encontrado e não é atualização")
             errors['email'] = 'Email é obrigatório'
-        
+
         if 'cpf' in data:
+            print("0.4/2 - Verificando 'cpf'...")
             cpf = data.get('cpf', '').strip()
             if cpf:
                 if not CPF.validator(cpf):
+                    print("0.4.1/2 - CPF inválido")
                     errors['cpf'] = 'CPF inválido'
                 else:
+                    print("0.4.2/2 - CPF válido:", cpf)
                     validated['cpf'] = CPF.parse_cpf(cpf)
             elif not is_update:
+                print("0.4.3/2 - CPF vazio e não é atualização")
                 errors['cpf'] = 'CPF é obrigatório'
         elif not is_update:
+            print("0.4.4/2 - CPF não encontrado e não é atualização")
             errors['cpf'] = 'CPF é obrigatório'
-    
+
         if errors:
+            print("1/2 - Erros encontrados durante validação:", errors)
+            print("--- Finished Routine - Validate Client Data (com erros) ---")
             raise ValidationError(errors)
-        
+
+        print("1/1 - Dados validados com sucesso:", validated)
+        print("--- Finished Routine - Validate Client Data (sucesso) ---")
         return validated
-    
+
+
+        
     @staticmethod
     def validate_doctor_data(data: Dict[str, Any], is_update: bool = False) -> Dict[str, Any]:
         """Validate doctor input data"""

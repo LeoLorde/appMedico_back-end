@@ -3,8 +3,13 @@ from .login_client_logic import get_user_with_request, create_jwt_token, create_
 
 def client_login():
     try:
+        print("--- Starting Routine - Client Login ---")
+        print("0/2 - FINDING CLIENT BY REQUEST ID")
         client = get_user_with_request(request.get_json())
+        print("1/2 - CREATING JWT TOKEN")
         jwt_token = create_jwt_token(client)
+        print("2/2 - DONE")
+        print("--- Ending Routine ---")
         return create_return_message(client, jwt_token)
         
     except Exception as e:
