@@ -4,14 +4,22 @@ from models.expedient_model import Expediente
 from models.doctor_model import Doctor
 from models.appointment_model import Appointment
 from utils.validators import InputValidator
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 def search_available_time():
     try:
-        data : dict = request.get_json()
-        doctor : Doctor = Doctor.query.filter_by(id=data.get("id")).first()
-        expediente : Expediente =  doctor.expediente
+        data: dict = request.get_json()
+        date_str = data.get("date")  # data no formato 'YYYY-MM-DD'
+        if not date_str:
+            return jsonify({'message': 'Data é obrigatória.'}), 400
         
+        requested_date = datetime.strptime(date_str, "%Y-%m-%d")
+        
+        doctor: Doctor = Doctor.query.filter_by(id=data.get("id")).first()
+        if not doctor:
+            return jsonify({'message': 'Médico não encontrado.'}), 404
+        
+        expediente: Expediente = doctor.expediente
         data_inicio = expediente.horario_inicio
         data_fim = expediente.horario_fim
         tempo_medio = doctor.horario_min
@@ -32,7 +40,9 @@ def search_available_time():
 
         appointments = Appointment.query.filter(
             Appointment.doctor_id == doctor.id,
-            Appointment.is_confirmed == "confirmed"
+            Appointment.is_confirmed == "confirmed",
+            Appointment.data_marcada >= requested_date,
+            Appointment.data_marcada < requested_date + timedelta(days=1)
         ).all()
 
         ocupados_em_minutos = set()
