@@ -10,14 +10,11 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 def search_by_doctor_appointment():
     try:
         id = get_jwt_identity()
-        print(id)
         doctor = Doctor.query.get(id)
-        print(doctor)
         if not doctor:
             return jsonify({'message': 'Médico não encontrado'}), 404
         app_list = Appointment.query.filter_by(doctor_id=id).filter(Appointment.is_confirmed != "refused").all()
         lista = [app.toMap() for app in app_list]
-        print(lista)
         return jsonify({
             'message': 'Agendamento criado com sucesso',
             'data': [app.toMap() for app in app_list]
@@ -32,17 +29,11 @@ def search_by_doctor_appointment():
 def search_by_doctor_pending_appointment():
     try:
         id = get_jwt_identity()
-        print(id)
         doctor = Doctor.query.get(id)
-        print(doctor)
         if not doctor:
-            print("Não achamos doutor")
             return jsonify({'message': 'Médico não encontrado'}), 404
 
         app_list = Appointment.query.filter_by(doctor_id=id).filter_by(is_confirmed="pending").all()
-        
-        lista = [app.toMap() for app in app_list]
-        print(lista)
         return jsonify({
             'message': 'Agendamento criado com sucesso',
             'data': [app.toMap() for app in app_list]
@@ -57,16 +48,12 @@ def search_by_doctor_pending_appointment():
 def search_by_client_appointment():
     try:
         id = get_jwt_identity()
-        print(id)
         client = Client.query.get(id)
-        print(client)
         if not client:
             print("Não achamos cliente")
             return jsonify({'message': 'Cliente não encontrado'}), 404
 
         app_list = Appointment.query.filter_by(client_id=id).filter(Appointment.is_confirmed != "refused").all()
-        lista = [app.toMap() for app in app_list]
-        print(lista)
         return jsonify({
             'message': 'Agendamento criado com sucesso',
             'data': [app.toMap() for app in app_list]
@@ -84,17 +71,14 @@ def search_appointments_by_day(data_param):
         if not data_param:
             return jsonify({'message': 'É necessário enviar o parâmetro ?date=YYYY-MM-DD'}), 400
 
-        # converte a string da query param em datetime
         try:
             search_date = datetime.strptime(data_param, "%Y-%m-%d").date()
         except ValueError:
             return jsonify({'message': 'Formato de data inválido. Use YYYY-MM-DD.'}), 400
 
-        # define intervalo do dia
         start_datetime = datetime.combine(search_date, datetime.min.time())
         end_datetime = datetime.combine(search_date, datetime.max.time())
 
-        # tenta identificar se é médico ou cliente
         doctor = Doctor.query.get(user_id)
         client = Client.query.get(user_id)
 
