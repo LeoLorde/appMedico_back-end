@@ -1,4 +1,4 @@
-from controllers.client.create_client import create_client
+from pipelines.client.create_client_pipeline import format_create_client_response
 from controllers.client.login_client import client_login
 from controllers.client.read_client import search_all, search_by_id, search_by_username
 from controllers.client.remove_client import delete_client
@@ -11,7 +11,7 @@ client_bp = Blueprint("client", "client", url_prefix="/client")
 
 @client_bp.route("/create", methods=["POST"])
 def criar_client():
-    return create_client()
+    return format_create_client_response()
 
 @client_bp.route("/login", methods=["POST"])
 def login_cliente():

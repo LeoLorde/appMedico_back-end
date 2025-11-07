@@ -10,13 +10,13 @@ def create_client():
         db.session.add(client)
         db.session.commit()
 
-        return jsonify({
+        return {
             'message': 'Client criado com sucesso',
-            'data': get_non_sensible_data(client)
-        }), 201
+            'data': get_non_sensible_data(client),
+        }, 201
         
     except ValidationError as e:
-        return jsonify({'message': 'Erro de validação', 'errors': e.errors}), 400
+        return {'message': 'Erro de validação', 'errors': e.errors}, 400
     except Exception as e:
         db.session.rollback()
-        return jsonify({'message': 'Erro ao criar cliente', 'error': str(e)}), 500
+        return {'message': 'Erro ao criar cliente', 'error': str(e)}, 500

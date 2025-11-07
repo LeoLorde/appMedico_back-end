@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from flask_jwt_extended import jwt_required
-from create_appointment_logic import get_doctor_and_client_with_request, check_if_appointment_is_possible, create_appointment_model, send_notification_to_users
+from .create_appointment_logic import get_doctor_and_client_with_request, check_if_appointment_is_possible, create_appointment_model, send_notification_to_users
 from database import db
 
 @jwt_required()
