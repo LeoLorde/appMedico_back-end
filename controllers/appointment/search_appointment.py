@@ -54,10 +54,19 @@ def search_by_client_appointment():
             return jsonify({'message': 'Cliente não encontrado'}), 404
 
         app_list = Appointment.query.filter_by(client_id=id).filter(Appointment.is_confirmed != "refused").all()
-        return jsonify({
-            'message': 'Agendamento criado com sucesso',
-            'data': [app.toMap() for app in app_list]
-        }), 200
+        dicto = {
+            'message': 'Agendamentos encontrados com sucesso',
+            'data': [
+                {
+                    "appointment": app.toMap(),
+                    'doctor': Doctor.query.get(app.doctor_id).toMap()
+                }
+                for app in app_list
+            ]
+        }
+        print(dicto)
+        return jsonify(dicto), 200
+
         
     except Exception as e:
         db.session.rollback()
