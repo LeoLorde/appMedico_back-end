@@ -37,7 +37,7 @@ def format_appointment_date(data_marcada: str):
 
 def check_user_datetime_is_free(user : User, appointment_time, end_time):
     user_appointments = Appointment.query.filter(
-            Appointment.user_id == user.id
+            Appointment.client_id == user.id
         ).all()
 
     for appointment in user_appointments:
@@ -63,7 +63,7 @@ def check_if_appointment_is_possible(doctor, client, data_marcada):
         check_user_datetime_is_free(doctor, appointment_time, end_time)
         check_user_datetime_is_free(client, appointment_time, end_time)
         
-        return duration_minutes, end_time, appointment_time
+        return duration_minutes, appointment_time
         
 def create_appointment_model(appointment_time, client, doctor, motivo, duration):
         return Appointment(

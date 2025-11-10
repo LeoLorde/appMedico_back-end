@@ -18,7 +18,10 @@ def create_appointment():
 
         return jsonify({
             'message': 'Agendamento criado com sucesso',
-            'data': appointment.toMap()
+            'data': {
+                "appointment": appointment.toMap(),
+                "doctor": doctor.toMap()
+            }
         }), 201
 
     except Exception as e:
