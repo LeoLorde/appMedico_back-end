@@ -12,10 +12,6 @@ from limiter import limiter
 
 doctor_bp = Blueprint("doctor", "doctor", url_prefix="/doctor")
 
-@doctor_bp.route("/")
-def index_main():
-    return {"message": "connected"}
-
 @doctor_bp.route("/create", methods=["POST"])
 def create_doctor_func():
     return create_doctor()
@@ -48,4 +44,5 @@ def doctor_delete(id):
 
 @doctor_bp.route("/")
 def get_self_doctor():
+    print("foi aqui")
     return self_client()
