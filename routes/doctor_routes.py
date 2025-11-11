@@ -3,6 +3,7 @@ from controllers.doctor.login_doctor import doctor_login
 from controllers.doctor.read_doctor import search_all, search_by_id, search_by_username
 from controllers.doctor.remove_doctor import delete_doctor
 from controllers.doctor.update_doctor import update_doctor
+from controllers.doctor.read_self_doctor import self_client
 
 from middlewares.auth_verificator import auth_middleware
 
@@ -44,3 +45,7 @@ def update_doctor_func(id):
 @auth_middleware
 def doctor_delete(id):
     return delete_doctor(id)
+
+@doctor_bp.route("/")
+def get_self_doctor():
+    return self_client()
