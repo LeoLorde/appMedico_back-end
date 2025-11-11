@@ -10,15 +10,18 @@ def search_available_time():
     try:
         data: dict = request.get_json()
         date_str = data.get("date")  # data no formato 'YYYY-MM-DD'
+        print(date_str)
         if not date_str:
             return jsonify({'message': 'Data é obrigatória.'}), 400
         
         requested_date = datetime.strptime(date_str, "%Y-%m-%d")
         
         weekday = requested_date.weekday()
+        print(weekday)
         dias_semana = ["segunda", "terça", "quarta", "quinta", "sexta", "sabado", "domingo"]
         
         dia_semana_nome = dias_semana[weekday]
+        print(dia_semana_nome)
         
         doctor: Doctor = Doctor.query.filter_by(id=data.get("id")).first()
         if not doctor:
@@ -29,7 +32,9 @@ def search_available_time():
             return jsonify({"Horario":[]})
         
         data_inicio = expediente.horario_inicio
+        print(data_inicio)
         data_fim = expediente.horario_fim
+        print(data_fim)
         tempo_medio = doctor.horario_min
         
         def time_to_minutes(time_obj):
@@ -45,6 +50,8 @@ def search_available_time():
         inicio_minutos = time_to_minutes(data_inicio)
         fim_minutos = time_to_minutes(data_fim)
 
+        print(inicio_minutos)
+        print(fim_minutos)
         disponivel_em_minutos = fim_minutos - inicio_minutos
         num_horarios_disponiveis = disponivel_em_minutos // tempo_medio
         
@@ -71,7 +78,9 @@ def search_available_time():
                 horario_obj = minutes_to_time(horario_disponivel)
                 horarios_disponiveis.append(str(horario_obj))
 
+        print(horarios_disponiveis)
         return jsonify({"Horarios": horarios_disponiveis})
         
     except Exception as e:
+        print(e)
         return jsonify({'message': 'Erro ao buscar expediente', 'error': str(e)}), 500

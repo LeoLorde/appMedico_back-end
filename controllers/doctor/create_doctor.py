@@ -49,7 +49,9 @@ def create_doctor():
         }), 201
         
     except ValidationError as e:
+        print(e)
         return jsonify({'message': 'Erro de validação', 'errors': e.errors}), 400
     except Exception as e:
         db.session.rollback()
+        print(e)
         return jsonify({'message': 'Erro ao criar médico', 'error': str(e)}), 500
