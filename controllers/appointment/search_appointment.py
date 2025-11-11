@@ -17,7 +17,7 @@ def search_by_doctor_appointment():
         lista = [app.toMap() for app in app_list]
         return jsonify({
             'message': 'Agendamento criado com sucesso',
-            'data': [app.toMap() for app in app_list]
+            'data': [{"appointment": app.toMap(), "client": Client.query.get(app.client_id).toMap() } for app in app_list]
         }), 200
         
     except Exception as e:
@@ -53,7 +53,7 @@ def search_by_client_appointment():
             print("Não achamos cliente")
             return jsonify({'message': 'Cliente não encontrado'}), 404
 
-        app_list = Appointment.query.filter_by(client_id=id).filter(Appointment.is_confirmed != "refused").all()
+        app_list = Appointment.query.filter_by(client_id=id).filter(Appointment.is_confirmed == "confirmed").all()
         dicto = {
             'message': 'Agendamentos encontrados com sucesso',
             'data': [
