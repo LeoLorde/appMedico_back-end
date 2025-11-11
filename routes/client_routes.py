@@ -3,6 +3,7 @@ from controllers.client.login_client import client_login
 from controllers.client.read_client import search_all, search_by_id, search_by_username
 from controllers.client.remove_client import delete_client
 from controllers.client.update_client import update_client
+from controllers.client.read_self import self_client
 from middlewares.auth_verificator import auth_middleware
 from flask import Blueprint
 from limiter import limiter
@@ -38,3 +39,7 @@ def update_cliente(id):
 @auth_middleware
 def delete_cliente(id):  
     return delete_client(id)
+
+@client_bp.route("/")
+def see_self():
+    return self_client()
